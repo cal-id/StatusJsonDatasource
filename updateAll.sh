@@ -1,9 +1,9 @@
 # updateCapacity.py
 # updatePledges.py
-python updateDiskServersInIntervention.py
-python updateDowntimes.py
-python updateGgusTickets.py
-python updateNotices.py
-python updateStorageUsageDataSource_VO.py
-python updateStorageUsageDataSource_MoreDetails.py
-python updateGanglia.py
+python2.7 updateDiskServersInIntervention.py
+python2.7 updateDowntimes.py
+python2.7 updateGgusTickets.py
+python2.7 updateNotices.py
+python2.7 updateStorageUsageDataSource_VO.py
+python2.7 updateStorageUsageDataSource_MoreDetails.py
+python2.7 updateGanglia.py
