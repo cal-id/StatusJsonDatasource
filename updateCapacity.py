@@ -40,9 +40,12 @@ listOfNamedValues = [
 
 # setup the list of data points that we will get from the json data source
 timeData = []
-
-for year in range(2011, 2017):
-    maxMonth = 13 if year != 2016 else 12
+currentYear = datetime.datetime.now().year
+for year in range(2011, currentYear + 1):
+    # If its the final year, only get data for up to and including the current
+    # month.
+    maxMonth = (13 if year != currentYear
+                else datetime.datetime.now().month() + 1)
     for month in range(1, maxMonth):
         d = json.loads(getData(month, year))
         try:
