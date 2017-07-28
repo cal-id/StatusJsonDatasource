@@ -1,7 +1,9 @@
-python diskServersInIntervention/updateJsonForDiskServersInInterventionDataSource.py
-python downtimes/updateJsonForDowntimesDataSource.py
-python ggusTickets/updateJsonForDowntimesDataSource.py
-python notices/updateJsonForNoticesDataSource.py
-python storageUsage/updateJsonForStorageUsageDataSourceByVO.py
-python storageUsage/updateJsonForStorageUsageDataSourceMoreDetailsForAllVOs.py
-python ganglia/updateJsonForGangliaSources.py
+# updateCapacity.py
+# updatePledges.py
+python updateDiskServersInIntervention.py
+python updateDowntimes.py
+python updateGgusTickets.py
+python updateNotices.py
+python updateStorageUsageDataSource_VO.py
+python updateStorageUsageDataSource_MoreDetails.py
+python updateGanglia.py
