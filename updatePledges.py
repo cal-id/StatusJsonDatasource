@@ -18,9 +18,9 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # define a function which gets the required JSON data for a specific year
 def getData(year):
-    r = requests.get("http://wlcg-rebus.cern.ch/apps/pledges/resources/federation/208/"\
-     +str(year)+"/json_datatables",
-     verify  = False)
+    r = requests.get("http://wlcg-rebus.cern.ch/apps/pledges/resources/"
+                     "federation/208/{}/json_datatables".format(year),
+                     verify=False)
     return r.text
 
 
@@ -105,7 +105,8 @@ def getData(year):
 # list of named values below
 path = "/var/www/html/grafanaJsonDatasources/pledgesOverTime"
 
-# this is the dictionary of different data points that you get can from the data
+# this is the dictionary of different data points that you get can from the
+# data
 dictionaryOfTimeData = {"CPU": [], "Disk": [], "Tape": []}
 
 for year in range(2009, 2017):  # go through the years up to (not inc.) 2017

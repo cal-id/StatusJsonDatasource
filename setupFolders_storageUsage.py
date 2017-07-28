@@ -10,7 +10,7 @@ vo_list = [
 for vo in vo_list:
     # store the path to place the folders in
     path = "/var/www/html/grafanaJsonDatasources/storageUsage"
-    path += "" if vo == None else vo.capitalize()
+    path += "" if vo is None else vo.capitalize()
     # if its the overall VO datasource then ad nothing to the path
     # else add the vo's name but capitalized
     try:
@@ -23,7 +23,7 @@ for vo in vo_list:
     # by grafana to create the dropdown box when selecting datasource
     with open(path + "/search", "w") as searchFile:
         text = '["Storage Usage Feed '
-        text += "Overall" if vo == None else "For " + vo.capitalize()
+        text += "Overall" if vo is None else "For " + vo.capitalize()
         text += '"]'
         searchFile.write(text)
         print("Written file: " + path + "/search")

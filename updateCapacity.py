@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json  # for formatting the output
 # for fomatting the output
 
@@ -20,9 +21,9 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # define a function which gets the required JSON data for a specific year and
 # month
 def getData(month, year):
-    r = requests.get("https://wlcg-rebus.cern.ch/apps/capacities/federation_sites/208/"\
-     +str(year)+"/"+str(month)+"/json_datatables",
-     verify  = False)
+    r = requests.get(
+        "https://wlcg-rebus.cern.ch/apps/capacities/federation_sites/208/"
+        "{}/{}/json_datatables".format(year, month), verify=False)
     # example return from this function:
     # {"aaData":[["EGI", "RAL-LCG2", 750, 9012, 90120, 13179200, 24443386]]}
     return r.text
@@ -49,8 +50,7 @@ for year in range(2011, 2017):
             # this is just the way that REBUS returns its data,
             # there is nothing special about the string aaData
         except IndexError:
-            print "indexError while getting this data: "+str(year)+\
-            ","+str(month)
+            print("indexError while getting this data: ", year, month)
             # this is necessary because some of the entries in 2012
             # are not in the system for some reason
         else:

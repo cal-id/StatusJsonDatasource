@@ -33,9 +33,8 @@ quattorManaged
 
 assert len(listOfSelectValues) != 0
 # throw an error if there are no select values
-
-queryString = 'SELECT '  # set up the begining of the query string (before adding
-# the select values)
+# set up the begining of the query string (before adding the select values)
+queryString = 'SELECT '
 
 queryString += '"' + listOfSelectValues[0] + '"'  # add the first of the select
 # values (already threw an error if this doesn't exist)
@@ -46,20 +45,28 @@ for selectValue in listOfSelectValues:
     queryString += ', "' + selectValue + '"'
 
 # finish the end of the query string
-queryString += ' from "vCastor" where ("virtualOrganisation" != \'n/a\' and "virtualOrganisation" != \'vcert2\' and "currentStatus" != \'Production\' and  "currentStatus" != \'Draining\' and  "currentStatus" != \'ReadOnly\') and ("normalStatus" = \'Production\' OR "normalStatus" = \'ReadOnly\') order by "virtualOrganisation"'
+queryString += (' from "vCastor" '
+                'where ("virtualOrganisation" != \'n/a\' '
+                'and "virtualOrganisation" != \'vcert2\' '
+                'and "currentStatus" != \'Production\' '
+                'and  "currentStatus" != \'Draining\' '
+                'and  "currentStatus" != \'ReadOnly\') '
+                'and ("normalStatus" = \'Production\' '
+                'OR "normalStatus" = \'ReadOnly\') '
+                'order by "virtualOrganisation"')
 # example of a valid query string:
-#	'SELECT "machineName", "virtualOrganisation", "diskPool",  "dxtx"
-#		from "vCastor"
-#		where ("virtualOrganisation" != \'n/a\'
-#			and "virtualOrganisation" != \'vcert2\'
-#			and "currentStatus" != \'Production\'
-#			and  "currentStatus" != \'Draining\'
-#			and  "currentStatus" != \'ReadOnly\')
-#			and ("normalStatus" = \'Production\'
-#				OR "normalStatus" = \'ReadOnly\')
-#			order by "virtualOrganisation"'
+# 'SELECT "machineName", "virtualOrganisation", "diskPool",  "dxtx"
+# from "vCastor"
+# where ("virtualOrganisation" != \'n/a\'
+# and "virtualOrganisation" != \'vcert2\'
+# and "currentStatus" != \'Production\'
+# and  "currentStatus" != \'Draining\'
+# and  "currentStatus" != \'ReadOnly\')
+# and ("normalStatus" = \'Production\'
+# OR "normalStatus" = \'ReadOnly\')
+# order by "virtualOrganisation"'
 
-#get a query object
+# get a query object
 query = db.query(queryString)
 
 listOfResults = query.dictresult(
@@ -67,7 +74,8 @@ listOfResults = query.dictresult(
 # this is a list of dictionaries which have keys defined by the select values
 # above
 # an example of a return (only one item in list):
-# [{'virtualOrganisation': 'Facilities', 'machineName': 'fdsdss36', 'dxtx': 'd1t0', 'diskPool': 'cedaDiskTest'}]
+# [{'virtualOrganisation': 'Facilities', 'machineName': 'fdsdss36', 'dxtx':
+# 'd1t0', 'diskPool': 'cedaDiskTest'}]
 
 jsonObj = [{"columns": [], "rows": [], "type": "table"}]
 # the object which will eventually be converted into JSON
@@ -128,7 +136,7 @@ for item in listOfResults:
         try:
             toAppend = item[selectValue]
         except KeyError:
-            # if there is a key error then it wasn't returned from the database.
+            # if there is a key error then it wasn't returned from the database
             # for the moment this means just print a blank row
             # TODO: this should be logged or something
             toAppend = ""
@@ -139,7 +147,8 @@ for item in listOfResults:
             try:
                 thisRow.append(spaceTokenMap[toAppend])
             except KeyError:
-                # if there isnt a mapping this is probably a problem so log this
+                # if there isnt a mapping this is probably a problem so log
+                # this
                 # TODO: log this
                 # For the moment we can just assume no spacetoken for this
                 # diskpool
@@ -149,10 +158,10 @@ for item in listOfResults:
 
 try:
     # convert to JSON and write to the file for serving to grafana
-    with open(
-            "/var/www/html/grafanaJsonDatasources/diskServersInIntervention/query",
-            "w") as outputFile:
-        # have to do it this way to ensure that the file system gets cleaned up if
+    with open("/var/www/html/grafanaJsonDatasources/"
+              "diskServersInIntervention/query", "w") as outputFile:
+        # have to do it this way to ensure that the file system gets cleaned up
+        # if
         # there is an error or something
         outputFile.write(json.dumps(jsonObj))
         # json.dumps is serializing the object
@@ -160,26 +169,30 @@ try:
 
 except IOError:
     raise Exception(
-        "This folder probably doesn't exist. Try running 'setupFolders.py' from the directory that this python script is run from."
+        "This folder probably doesn't exist. Try running 'setupFolders.py'"
+        "from the directory that this python script is run from."
     )
 
 # do the HTML version as well. This one formats the machine name with a link
-# which goes through to https://overwatch.gridpp.rl.ac.uk/index.php?view:system:
+# which goes through to
+# https://overwatch.gridpp.rl.ac.uk/index.php?view:system:
 if "machineName" in listOfSelectValues:
     colIndex = listOfSelectValues.index("machineName")
     # find which col is machine name so that we can edit that
     for row in jsonObj[0]["rows"]:
         # go through each row and change the value of the machine name col to a
         # html link
-        row[colIndex] = "<a href='https://overwatch.gridpp.rl.ac.uk/index.php?view:system:" + row[colIndex] + "''>" + row[colIndex] + "</a>"
+        row[colIndex] = ("<a href='https://overwatch.gridpp.rl.ac.uk/index.php"
+                         "?view:system:{}'>{}}</a>").format(row[colIndex],
+                                                            row[colIndex])
 
     # write the file as above but for the HTML version
     try:
-        with open(
-                "/var/www/html/grafanaJsonDatasources/diskServersInInterventionHTML/query",
-                "w") as outputFile:
+        with open("/var/www/html/grafanaJsonDatasources/"
+                  "diskServersInInterventionHTML/query", "w") as outputFile:
             outputFile.write(json.dumps(jsonObj))
     except IOError:
         raise Exception(
-            "This folder probably doesn't exist. Try running 'setupFolders.py' from the directory that this python script is run from."
+            "This folder probably doesn't exist. Try running 'setupFolders.py'"
+            " from the directory that this python script is run from."
         )

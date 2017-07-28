@@ -28,20 +28,21 @@ with open(path + additionalPathToNoticeboard, "r") as file:
     for line in file:  # step through each line in the file
         if line != "\n":
             cols = line.split(";")  # split each line into cols
-            '''
-			for example a cols would look like this:
-			[
-				'1252589462',
-				'Tiju Idiculla',
-				'/C=UK/O=eScience/OU=CLRC/L=RAL/CN=tiju idiculla',
-				'Castor Database problems',
-				'There are some problems on the CMS and GEN instances of the Castor database. The problem is under investigation.\n'
-			]
-			'''
+
+            # for example a cols would look like this:
+            # [
+            #     '1252589462',
+            #     'Tiju Idiculla',
+            #     '/C=UK/O=eScience/OU=CLRC/L=RAL/CN=tiju idiculla',
+            #     'Castor Database problems',
+            #     'There are some problems on the CMS and GEN instances of the
+            #     Castor database. The problem is under investigation.\n'
+            # ]
 
             jsonObj[0]["rows"].append([
-                int(cols[0]) *
-                1000,  # parse the timestamp into an integer and change into miliseconds
+                # parse the timestamp into an integer and change into
+                # miliseconds
+                int(cols[0]) * 1000,
                 cols[1],  # ignore the certificate
                 cols[3],
                 cols[4]
@@ -51,8 +52,7 @@ try:
     with open(path + additionalPathToJsonSource, "w") as file:
         file.write(json.dumps(jsonObj))
 except IOError:
-    print(
-        "This folder doesn't exist try running setupFolders.py in this directory"
-    )
+    print("This folder doesn't exist try running setupFolders.py in this "
+          "directory")
 else:
     print("Written to JSON file")

@@ -1,8 +1,7 @@
 import json  # to format the output
 import requests  # to get the data
-import xml.etree.ElementTree as ET
 # import the xml parser as a more manageable name
-import time  # so we can tell if a downtime is ongoin
+import xml.etree.ElementTree as ET
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -10,7 +9,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 path = "/var/www/html/grafanaJsonDatasources/ggusTickets"
 
-r = requests.get(  # get an xml return from this URL and don't check certificates
+# get an xml return from this URL and don't check certificates
+r = requests.get(
     "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml",
     # TODO: test this when I have a certicate and can use the real location
     verify=False)
@@ -20,24 +20,24 @@ xmlRoot = ET.fromstring(r.text)
 # assume the xml is of this form:
 '''
 <tickets>
-	<ticket>
-		<request_id>...</request_id>
-		<ticket_type>USER</ticket_type>
-		<affected_vo>...</affected_vo>
-		<affected_site>...</affected_site>
-		<responsible_unit>...</responsible_unit>
-		<status>...</status>
-		<priority>...</priority>
-		<priority_color>green</priority_color>
-		<date_of_creation>2016-11-07 12:07:00</date_of_creation>
-		<last_update>2016-11-07 12:34:00</last_update>
-		<type_of_problem>...</type_of_problem>
-		<subject>
-		...
-		</subject>
-	</ticket>
-	<ticket> ... </ticket>
-	....
+    <ticket>
+        <request_id>...</request_id>
+        <ticket_type>USER</ticket_type>
+        <affected_vo>...</affected_vo>
+        <affected_site>...</affected_site>
+        <responsible_unit>...</responsible_unit>
+        <status>...</status>
+        <priority>...</priority>
+        <priority_color>green</priority_color>
+        <date_of_creation>2016-11-07 12:07:00</date_of_creation>
+        <last_update>2016-11-07 12:34:00</last_update>
+        <type_of_problem>...</type_of_problem>
+        <subject>
+        ...
+        </subject>
+    </ticket>
+    <ticket> ... </ticket>
+    ....
 </tickets>
 '''
 jsonObj = [{"columns": [], "rows": [], "type": "table"}]
@@ -79,8 +79,9 @@ for xmlTicket in xmlRoot:
     storedStatus = xmlTicket.find("status").text
 
     # setup the link here for readability
-    linkToTicket = "<a href='https://ggus.eu/index.php?mode=ticket_info&amp;ticket_id="\
-     +storedId+"'>"+storedId+"</a>"
+    linkToTicket = ("<a href='https://ggus.eu/index.php?"
+                    "mode=ticket_info&amp;ticket_id={}'>{}</a>"
+                    ).format(storedId, storedId)
 
     jsonObj[0]["rows"].append([
         linkToTicket,  # parse the id into an integer
