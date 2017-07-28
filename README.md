@@ -36,30 +36,30 @@ Here, each element is discussed how it is before and after the move to Grafana.
 
 ### Notices
 #### Before
-![Old Screenshot](Screenshots/old/notices.PNG)
+![Old screenshot](Screenshots/old/notices.PNG)
 - 5 most recent notices shown
 - 'Click here to add'
 - Data from `/var/www/html/status/grid/noticeboard.txt` (these scripts are meant to be run on the same server than provides the noticeboard)
 
 #### Grafana
-![New Screenshot](Screenshots/new/notices.PNG)
+![New screenshot](Screenshots/new/notices.PNG)
 - All notices shown in paginated table
 - Link to add a new one next to the title
 
 ### Disk Servers in Intervention
 #### Before
-![Old Screenshot](Screenshots/old/diskserversInIntervention.PNG)
+![Old screenshot](Screenshots/old/diskserversInIntervention.PNG)
 - Table showing information about disk servers
 - Data from MagDB
 - Link through to overwatch
 
 #### Grafana
-![New Screenshot](Screenshots/new/diskserversInIntervention.PNG)
+![New screenshot](Screenshots/new/diskserversInIntervention.PNG)
 - Two possible datasources one plain (no links) and one rich HTML (including the links)
 
 ### Downtimes
 #### Before
-![Old Screenshot](Screenshots/old/downtimes.PNG)
+![Old screenshot](Screenshots/old/downtimes.PNG)
 - List of downtimes from EGI
 - Link through to EGI with the ID
 - Hovering over list of machines gives the list of machines
@@ -69,7 +69,7 @@ Here, each element is discussed how it is before and after the move to Grafana.
 - Future shown underneath
 
 #### Grafana
-![Old Screenshot](Screenshots/new/downtimes.PNG)
+![Old screenshot](Screenshots/new/downtimes.PNG)
 - ID links through to EGI
 - List of machines shown for ongoing and future down timestamps
 - Past downtimes also shown but no list of machines given
@@ -82,30 +82,30 @@ Here, each element is discussed how it is before and after the move to Grafana.
 
 ### GGUS
 #### Before
-![Old Screenshot](Screenshots/old/GGUS.PNG)
+![Old screenshot](Screenshots/old/GGUS.PNG)
 - ID Links through to ticket from GGUS
 - Row is red if ticket status is 'assigned'
 - Data from GGUS
 
 #### Grafana
-![New Screenshot](Screenshots/new/GGUS.PNG)
+![New screenshot](Screenshots/new/GGUS.PNG)
 - ID links through to ticket from GGUS as rich HTML
 - Code is 1 if ticket status is 'assigned' (grafana allows a rule to style based on the value of a column)
 
 ### Storage Usage (GB)
 #### Before
-![Old Screenshot](Screenshots/old/storageUseDetailed.PNG)
+![Old screenshot](Screenshots/old/storageUseDetailed.PNG)
 - Link to accounting information
 - Data from LDAP
 - Clicking on a VO expands into more detail
 
 #### Grafana
-![New Screenshot](Screenshots/new/storageUse.PNG)
+![New screenshot showing storage use](Screenshots/new/storageUse.PNG)
 - One data source (above) for the overview (with no Disk Free as above)
 - Data sources for each of the VOs (below), to show the detailed information.
 - Link to accounting information next to storage usage.
 
-![New Screenshot](Screenshots/new/storageUseDetailed.PNG)
+![New screenshot showing detailed storage use](Screenshots/new/storageUseDetailed.PNG)
 
 
 ### Ganglia Graphs
@@ -113,3 +113,17 @@ Here, each element is discussed how it is before and after the move to Grafana.
 Many of the ganglia graphs are already in our Grafana instance. Mainly for testing purposes / proof of concept, a ganglia datasource is provided. It takes the json version of the graphs for the standard time periods (1hr, 2hr, 4hr, 1d ... 10y) and combines it into one grafana compatible json time series.
 
 If this were to be taken further, the corrent way to do this would be to pipe the data into InfluxDB. That way, the query would work and only the points for the current grafana view would be sent to the browser. Instead, all the points are sent on each load and grafana refuses to draw the points which aren't in the view (ie those from 10 years ago).
+
+### Capacity + pledgesOverTime
+#### Before
+![Old screenshot](Screenshots/old/capacity+pledges.PNG)
+- Current REBUS pledged and installed capacities shown
+- Link to REBUS in title
+
+#### Grafana
+![New screenshot showing single stats](Screenshots/new/capacity+pledges.PNG)
+- The JSON provides more that then current data, there is a time series from 2011
+- Single stat planels can be used to show the information on the previous dashboard.
+- Additionally, the pledges data can be split by experiment or 'SUM only' which was on the previous dashboard. Because there is no active server responding to the query, SUM only should be used for the single stat (it only returns one time series).
+
+![New screenshot showing pledges split by experiment](Screenshots/new/pledges_split.PNG)
