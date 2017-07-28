@@ -108,18 +108,18 @@ path = "/var/www/html/grafanaJsonDatasources/pledgesOverTime"
 # this is the dictionary of different data points that you get can from the
 # data
 dictionaryOfTimeData = {"CPU": [], "Disk": [], "Tape": []}
-
-for year in range(2009, 2017):  # go through the years up to (not inc.) 2017
+# go through the years up to the current year
+for year in range(2009, datetime.datetime.now().year):
     d = json.loads(getData(year))
-
     for toAppend in d["aaData"]:
         key = toAppend[0].split()[0]  # should be one of CPU, Disk or Tape
-        toAppend[0] = year
-        dictionaryOfTimeData[key].append(toAppend)
         # make use of the first value in each list which is name of data
         # overwrite these with the year
+        toAppend[0] = year
+        dictionaryOfTimeData[key].append(toAppend)
 
-for key in dictionaryOfTimeData:
+for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
+    # Create the folders
     try:
         os.makedirs(path + key)
         print("folder created: " + path + key)
@@ -132,20 +132,22 @@ for key in dictionaryOfTimeData:
     except OSError:
         print("folder already exists: " + path + key)
 
-    orderOfExperimentsInData = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
     # this is the order that the experiments occur in the data
+    # on the old dashboard, SUM is the important metric
+    orderOfExperimentsInData = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
 
+    # the list to be populated by instances of {"target":str, "datapoints":[]}
     jsonObj = [{
         "target": experiment,
         "datapoints": []
     } for experiment in orderOfExperimentsInData]
-    # the list to be populated by instances of {"target":str, "datapoints":[]}
 
     for dataInAYear in dictionaryOfTimeData[key]:
-        # start at index 1, step through in multiples of 4
+        # Create a timestamp for this data point
         dt = datetime.datetime(year=dataInAYear[0], month=12, day=31)
         timestamp = time.mktime(dt.timetuple())
         # this is a float so ends with a .0
+        # start at index 1, step through in multiples of 4
         for index, item in enumerate(dataInAYear[1::4]):
             # step through the data for each experiment
             jsonObj[index]["datapoints"].append([item, int(timestamp) * 1000])
