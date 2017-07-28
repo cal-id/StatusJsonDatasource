@@ -1,0 +1,7 @@
+python diskServersInIntervention/updateJsonForDiskServersInInterventionDataSource.py
+python downtimes/updateJsonForDowntimesDataSource.py
+python ggusTickets/updateJsonForDowntimesDataSource.py
+python notices/updateJsonForNoticesDataSource.py
+python storageUsage/updateJsonForStorageUsageDataSourceByVO.py
+python storageUsage/updateJsonForStorageUsageDataSourceMoreDetailsForAllVOs.py
+python ganglia/updateJsonForGangliaSources.py
