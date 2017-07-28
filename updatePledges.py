@@ -109,7 +109,7 @@ path = "/var/www/html/grafanaJsonDatasources/pledgesOverTime"
 # data
 dictionaryOfTimeData = {"CPU": [], "Disk": [], "Tape": []}
 # go through the years up to the current year
-for year in range(2009, datetime.datetime.now().year):
+for year in range(2009, datetime.datetime.now().year + 1):
     d = json.loads(getData(year))
     for toAppend in d["aaData"]:
         key = toAppend[0].split()[0]  # should be one of CPU, Disk or Tape
