@@ -8,5 +8,5 @@ try:
 except OSError:
     print("Couldn't make folder, folder already exists: " + path)
 
-with open(path + "/search", "w") as file:
-    file.write('["Downtimes"]')
+with open(path + "/search", "w") as fh:
+    fh.write('["Downtimes"]')

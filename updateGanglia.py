@@ -106,11 +106,11 @@ for urlDict in listOfGangliaURLs:
         print("folder already exists: " + path + title)
 
     # write the query file
-    with open(path + title + "/query", "w") as file:
-        file.write(json.dumps(jsonObj))
+    with open(path + title + "/query", "w") as fh:
+        fh.write(json.dumps(jsonObj))
         print("written file: " + path + title + "/query")
 
     # write the search file
-    with open(path + title + "/search", "w") as file:
-        file.write(json.dumps([point["target"] for point in jsonObj]))
+    with open(path + title + "/search", "w") as fh:
+        fh.write(json.dumps([point["target"] for point in jsonObj]))
         print("written file: " + path + title + "/search")

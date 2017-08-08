@@ -131,8 +131,8 @@ for key in dictionaryOfDowntimeIdAgainstRows:
     jsonObj[0]["rows"].append(dictionaryOfDowntimeIdAgainstRows[key])
 
 try:
-    with open(path + "/query", "w") as file:
-        file.write(json.dumps(jsonObj))
+    with open(path + "/query", "w") as fh:
+        fh.write(json.dumps(jsonObj))
         print("Written file at: " + path + "/query")
 except IOError:
     print("This folder does not exist try running setupFolders.py")

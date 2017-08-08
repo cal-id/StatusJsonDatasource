@@ -79,10 +79,10 @@ for index, name in enumerate(listOfNamedValues):
         jsonObj[0]["datapoints"].append(
             [item[index + 2], int(timestamp) * 1000])
 
-    with open(path + name + "/query", "w") as file:
-        file.write(json.dumps(jsonObj))
+    with open(path + name + "/query", "w") as fh:
+        fh.write(json.dumps(jsonObj))
         print("written file: " + path + name + "/query")
 
-    with open(path + name + "/search", "w") as file:
-        file.write(json.dumps([name]))
+    with open(path + name + "/search", "w") as fh:
+        fh.write(json.dumps([name]))
         print("written file: " + path + name + "/search")

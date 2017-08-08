@@ -153,16 +153,16 @@ for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
             jsonObj[index]["datapoints"].append([item, int(timestamp) * 1000])
             # convert timestap to an integer and miliseconds
 
-    with open(path + key + "/query", "w") as file:
-        file.write(json.dumps(jsonObj))
+    with open(path + key + "/query", "w") as fh:
+        fh.write(json.dumps(jsonObj))
         print("written file: " + path + key + "/query")
 
-    with open(path + key + "/search", "w") as file:
-        file.write(json.dumps(orderOfExperimentsInData))
+    with open(path + key + "/search", "w") as fh:
+        fh.write(json.dumps(orderOfExperimentsInData))
         print("written file: " + path + key + "/search")
 
-    with open(path + key + "SumOnly" + "/query", "w") as file:
-        file.write(json.dumps([jsonObj[-1]]))
+    with open(path + key + "SumOnly" + "/query", "w") as fh:
+        fh.write(json.dumps([jsonObj[-1]]))
         print("written file: " + path + key + "SumOnly" + "/query")
 
     with open(path + key + "SumOnly" + "/search", "w") as file:
