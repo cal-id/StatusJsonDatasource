@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 # import json so that we can format output
 import requests  # To get noticeboard.txt

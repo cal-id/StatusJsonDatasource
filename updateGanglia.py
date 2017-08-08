@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json  # to parse stuff
 from os import makedirs  # to make folders
 import requests  # to make url requests

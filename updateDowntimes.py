@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json  # to format the output
 import requests  # to get the data
 import xml.etree.ElementTree as ET

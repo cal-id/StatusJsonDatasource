@@ -1,3 +1,4 @@
+from __future__ import print_function
 from pg import DB  # from PyGreSQL import database function
 from secret import MAG_DBNAME, MAG_HOST, MAG_USER, MAG_PASSWD
 import json
