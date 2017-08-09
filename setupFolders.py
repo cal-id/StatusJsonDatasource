@@ -27,17 +27,19 @@ def makeDirectoryWithLog(path):
     """Creates the folders (including parent folders) for a given path. This
     should log if there was a success or failure."""
     try:
-        os.makedirs(path, exist_ok=True)
+        os.makedirs(path)
     except OSError as ex:
-        if sys.version_info < (3, 3) or isinstance(ex, PermissionError):
-            # In python3.3+ there is the concept of a Permission Error
+        if ex.args[1] == "Permission denied":
+            # In python3.3+ there is a Permission Error but it inherits from
+            # OSError
             print("Could not create {}. You don't have permission!"
                   .format(path))
-    except BaseException as ex:
-        print("Failed to create {} with an unexpected error!".format(path))
-        raise
+        elif ex.args[1] == "File exists":
+            pass
+        else:
+            raise
     else:
-        print(path, "is available")
+        print(path, "was created")
 
 
 def writeSearchFile(path, content):
@@ -50,17 +52,17 @@ def writeSearchFile(path, content):
     try:
         with open(filePath, "w") as searchFile:
             searchFile.write(content)
-            print("Written file:", filePath)
-    except OSError as ex:
-        if sys.version_info < (3, 3) or isinstance(ex, PermissionError):
-            # In python3.3+ there is the concept of a Permission Error
+    # This error is IOError in python2 but OSError in python3
+    except (OSError, IOError) as ex:
+        if ex.args[1] == "Permission denied":
             print("Could not create {}. You don't have permission!"
                   .format(filePath))
-    except BaseException as ex:
-        print("Failed to create {} with an unexpected error!".format(path))
-        raise
+        elif ex.args[1] == "File exists":
+            pass
+        else:
+            raise
     else:
-        print(path, "is available")
+        print(path, "was written")
 
 
 # DISK SERVERS IN INTERVENTION
