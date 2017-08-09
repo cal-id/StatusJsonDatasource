@@ -7,26 +7,56 @@ LDAP, EGI) and combine them on every page load. These scripts collect data from
 the same sources and convert them in a common format (JSON) that can be accessed
 by a Grafana Dashboard when they are served by a webserver.
 
+## Setup for running the Python Scripts
+
+```
+# Populate secret.py
+cp secret_example.py secret.py
+# This file is not for github!
+vi secret.py  # At this stage, put the passwords / details in here!
+
+# Install PostgreSQL requirements
+sudo apt install libpq-dev PostgreSQL python-dev python3-dev
+
+# Install pyldap requirements
+sudo apt-get install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
+# or
+sudo yum install python-devel openldap-devel
+
+# Install appache2
+sudo apt install httpd
+sudo chown $USER /var/www/html/
+
+# Use a virtual environment to avoid clashing with system pip packages
+python3 -m virtualenv python3
+source python3/bin/activate   # activate the virtual environment
+
+# Install pip requirements
+pip install pyldap
+pip install requests
+pip install PyGreSQL
+```
+
 ## Elements
 
-The following elements from the original dashboard have scripts to collect their data into JSON (prefixed with `update`).
+The following elements from the original dashboard have scripts to collect their data into JSON (prefixed with `update`). Some also have setup scripts (prefixed with `setupFolders_`) which create the folders to imitate the JSON api (provide `/query` and `/search` URLs).
 
-Element                      | Update Script
----------------------------- | ---------------------
-Notices                      | updateNotices.py
-Disk Servers in Intervention | updateDiskServersInIntervention.py
-Downtimes                    | updateDowntimes.py
-GGUS                         | updateGgusTickets.py
-Storage Usage                | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
-Ganglia (proof of concept)   | (Not working) updateGanglia.py
-Pledges                      | updatePledges.py
-Capacity                     | updateCapacity.py
+Element  | Setup Script | Update Script
+-------- | ------------ | ---------------------
+Notices  | setupFolders_notices.py | updateNotices.py
+Disk Servers in Intervention | setupFolders_diskServersInIntervention.py | updateDiskServersInIntervention.py
+Downtimes | setupFolders_downtimes.py | updateDowntimes.py
+GGUS | setupFolders_ggusTickets.py | updateGgusTickets.py
+Storage Usage | setupFolders_storageUsage.py | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
+Ganglia (only a proof of concept) | n/a | (Not working) updateGanglia.py
+Pledges | n/a | updatePledges.py
+Capacity | n/a | updateCapacity.py
 
 These elements are not included
 
-Element       | Why
-------------- | -----
-SAM Test      | Not currently working at the time of porting
+Element | Why
+------- | -----
+SAM Test | Not currently working at the time of porting
 HTCondor Farm | Data is already in our Grafana instance
 
 ## Setup

@@ -1,0 +1,9 @@
+certifi==2017.7.27.1
+chardet==3.0.4
+idna==2.5
+ldap==1.0.2
+ldap3==2.3
+pyasn1==0.3.2
+PyGreSQL==5.0.4
+requests==2.18.3
+urllib3==1.22
