@@ -39,24 +39,24 @@ pip install PyGreSQL
 
 ## Elements
 
-The following elements from the original dashboard have scripts to collect their data into JSON (prefixed with `update`). Some also have setup scripts (prefixed with `setupFolders_`) which create the folders to imitate the JSON api (provide `/query` and `/search` URLs).
+The following elements from the original dashboard have scripts to collect their data into JSON (prefixed with `update`).
 
-Element  | Setup Script | Update Script
--------- | ------------ | ---------------------
-Notices  | setupFolders_notices.py | updateNotices.py
-Disk Servers in Intervention | setupFolders_diskServersInIntervention.py | updateDiskServersInIntervention.py
-Downtimes | setupFolders_downtimes.py | updateDowntimes.py
-GGUS | setupFolders_ggusTickets.py | updateGgusTickets.py
-Storage Usage | setupFolders_storageUsage.py | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
-Ganglia (only a proof of concept) | n/a | (Not working) updateGanglia.py
-Pledges | n/a | updatePledges.py
-Capacity | n/a | updateCapacity.py
+Element                      | Update Script
+---------------------------- | ---------------------
+Notices                      | updateNotices.py
+Disk Servers in Intervention | updateDiskServersInIntervention.py
+Downtimes                    | updateDowntimes.py
+GGUS                         | updateGgusTickets.py
+Storage Usage                | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
+Ganglia (proof of concept)   | (Not working) updateGanglia.py
+Pledges                      | updatePledges.py
+Capacity                     | updateCapacity.py
 
 These elements are not included
 
-Element | Why
-------- | -----
-SAM Test | Not currently working at the time of porting
+Element       | Why
+------------- | -----
+SAM Test      | Not currently working at the time of porting
 HTCondor Farm | Data is already in our Grafana instance
 
 ## Setup
