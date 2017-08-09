@@ -57,6 +57,9 @@ def writeSearchFile(path, content):
         if ex.args[1] == "Permission denied":
             print("Could not create {}. You don't have permission!"
                   .format(filePath))
+        if ex.args[1] == "No such file or directory":
+            print("You need to call makeDirectoryWithLog (which must succeed)"
+                  "before trying to create", path)
         elif ex.args[1] == "File exists":
             pass
         else:
