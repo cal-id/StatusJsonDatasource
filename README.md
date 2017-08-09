@@ -18,7 +18,7 @@ Disk Servers in Intervention | setupFolders_diskServersInIntervention.py | updat
 Downtimes | setupFolders_downtimes.py | updateDowntimes.py
 GGUS | setupFolders_ggusTickets.py | updateGgusTickets.py
 Storage Usage | setupFolders_storageUsage.py | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
-Ganglia (only a proof of concept) | n/a | updateGanglia.py
+Ganglia (only a proof of concept) | n/a | (Not working) updateGanglia.py
 Pledges | n/a | updatePledges.py
 Capacity | n/a | updateCapacity.py
 
@@ -111,6 +111,8 @@ Here, each element is discussed how it is before and after the move to Grafana.
 ### Ganglia Graphs
 
 Many of the ganglia graphs are already in our Grafana instance. Mainly for testing purposes / proof of concept, a ganglia datasource is provided. It takes the json version of the graphs for the standard time periods (1hr, 2hr, 4hr, 1d ... 10y) and combines it into one grafana compatible json time series.
+
+However, when tested on 09/08/2017, ganglia no longer returns these datapoints in its JSON. This means that the [updateGanglia.py script](../blob/master/updateGanglia.py) no longer works. 
 
 If this were to be taken further, the corrent way to do this would be to pipe the data into InfluxDB. That way, the query would work and only the points for the current grafana view would be sent to the browser. Instead, all the points are sent on each load and grafana refuses to draw the points which aren't in the view (ie those from 10 years ago).
 

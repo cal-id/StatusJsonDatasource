@@ -1,8 +1,20 @@
+"""
+Note that as of 09/08/2017, this script does not work because Ganglia no
+longer returns datapoints as JSON. 
+
+For example:
+http://ganglia.gridpp.rl.ac.uk/ganglia/graph.php?r=hour&c=CASTOR_Repack&m=load_one&s=by+name&mc=2&g=network_report&json=1
+"""
 from __future__ import print_function
 import json  # to parse stuff
 from os import makedirs  # to make folders
 import requests  # to make url requests
 import re  # to find the title in the URL
+
+
+print(__doc__)
+raise Exception("No longer working...")
+
 
 # IMPORTANT: the link should have the 'r=...&' removed from the query string
 listOfGangliaURLs = [{
