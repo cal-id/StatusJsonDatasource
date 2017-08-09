@@ -1,3 +1,7 @@
+from __future__ import print_function
+
+import sys  # to check py3 vs py2
+
 import ldap  # get the ldap module which is what we will use for the data
 # source at the begining
 import json  # get the json module so that the object can be serialized at the
@@ -28,7 +32,7 @@ for vo in vo_list:
         "text": "Tape Used"
     }]  # set the predefined column headings
 
-    ldapObject = ldap.open(LDAP_HOST, 2170)  # open the ldap server
+    ldapObject = ldap.open(LDAP_HOST, 2170, bytes_mode=False)  # open the ldap server
     ldap.set_option(
         ldap.OPT_NETWORK_TIMEOUT, 3
     )  # set some options. Not sure if this is necessary, Tiju did this in his
@@ -69,12 +73,19 @@ for vo in vo_list:
         # row[1]['GlueSAFreeOnlineSize'][0] is Disk Free
         # row[1]['GlueSATotalOnlineSize'][0] is Disk Total
         # row[1]['GlueSAUsedNearlineSize'][0] is Tape Used
-        thisRow.append(row[1]['GlueSALocalID'][0])
-        thisRow.append(
-            int(
-                round(
-                    int(row[1]['GlueSAUsedOnlineSize'][0]) * 100 / int(
-                        row[1]['GlueSATotalOnlineSize'][0]))))
+        localId = (row[1]['GlueSALocalID'][0] if sys.version_info < (3,)
+                   else row[1]['GlueSALocalID'][0].decode())
+        # If this is python3, the localId is in bytes form. We need a
+        # string to encode to JSON.
+        thisRow.append(localId)
+        try:
+            thisRow.append(int(round(
+                int(row[1]['GlueSAUsedOnlineSize'][0]) * 100 /
+                int(row[1]['GlueSATotalOnlineSize'][0]))))
+        except ZeroDivisionError:
+            print("Got zero online size for vo: {} at {}"
+                  .format(vo, localId))
+            thisRow.append(0)
         thisRow.append(int(row[1]['GlueSAUsedOnlineSize'][0]))
         thisRow.append(int(row[1]['GlueSAFreeOnlineSize'][0]))
         thisRow.append(int(row[1]['GlueSATotalOnlineSize'][0]))
