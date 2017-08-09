@@ -33,10 +33,7 @@ for vo in vo_list:
     }]  # set the predefined column headings
 
     # open the ldap server
-    if sys.version_info >= (3,):
-        ldapObject = ldap.open(LDAP_HOST, 2170, bytes_mode=True)
-    else:
-        ldapObject = ldap.open(LDAP_HOST, 2170)
+    ldapObject = ldap.open(LDAP_HOST, 2170)
     ldap.set_option(
         ldap.OPT_NETWORK_TIMEOUT, 3
     )  # set some options. Not sure if this is necessary, Tiju did this in his
