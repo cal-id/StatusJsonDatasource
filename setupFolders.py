@@ -104,4 +104,4 @@ for vo in vo_list:
     searchFileContent = '["Storage Usage Feed '
     searchFileContent += "Overall" if vo is None else "For " + vo.capitalize()
     searchFileContent += '"]'
-    makeDirectoryWithLog(thisPath, searchFileContent)
+    writeSearchFile(thisPath, searchFileContent)
