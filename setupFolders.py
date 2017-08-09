@@ -11,11 +11,12 @@ For each data source, it creates a top directory:
 
 And a search file with in this top directory. This file is downloaded by
 Grafana to give it the titles of the data in this URL.
+
+Works with python2 or python3
 """
 
 from __future__ import print_function
 import os
-import sys
 
 # INITIAL SETUP
 
@@ -65,7 +66,7 @@ def writeSearchFile(path, content):
         else:
             raise
     else:
-        print(path, "was written")
+        print(filePath, "was written")
 
 
 # DISK SERVERS IN INTERVENTION
