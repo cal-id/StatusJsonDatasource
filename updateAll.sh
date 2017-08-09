@@ -5,12 +5,11 @@ then
     exit 1
 fi
 
-updateCapacity.py
-updatePledges.py
+python updateCapacity.py
+python updatePledges.py
 python updateDiskServersInIntervention.py
 python updateDowntimes.py
 python updateGgusTickets.py
 python updateNotices.py
-python updateStorageUsageDataSource_VO.py
-python updateStorageUsageDataSource_MoreDetails.py
-python updateGanglia.py
+python updateStorageUsage_VO.py
+python updateStorageUsage_MoreDetails.py
