@@ -15,20 +15,34 @@ cp secret_example.py secret.py
 # This file is not for github!
 vi secret.py  # At this stage, put the passwords / details in here!
 
+# Install the simple stuff
+# Note that on SL6, python is python2.6 not python2.7 so you must use python3
+sudo yum install git python python34 python-pip
+# Yum doesn't provide pip3, instead:
+sudo yum install -y python34-setuptools  # install easy_install-3.4
+sudo easy_install-3.4 pip
+
+# Clone the repo
+git clone https://github.com/cal-id/StatusJsonDatasource
+cd StatusJsonDatasource
+
 # Install PostgreSQL requirements
 sudo apt install libpq-dev PostgreSQL python-dev python3-dev
+sudo yum install libpqxx-devel postgresql python-devel python3-devel gcc
 
 # Install pyldap requirements
-sudo apt-get install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
-# or
-sudo yum install python-devel openldap-devel
+sudo apt install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
+sudo yum install python-devel openldap-devel-2.4.40-12.el6 gcc
+# Had to use version number because -16 depended on openldap-16 which wasn't installed
 
 # Install appache2
 sudo apt install httpd
+sudo yum install httpd
 sudo chown $USER /var/www/html/
 
 # Use a virtual environment to avoid clashing with system pip packages
 python3 -m virtualenv python3
+
 source python3/bin/activate   # activate the virtual environment
 
 # Install pip requirements
