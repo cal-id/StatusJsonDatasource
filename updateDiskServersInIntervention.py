@@ -185,7 +185,7 @@ if "machineName" in listOfSelectValues:
         # html link
         row[colIndex] = ("<a href='https://overwatch.gridpp.rl.ac.uk/index.php"
                          "?view:system:{}'>{}</a>").format(row[colIndex],
-                                                            row[colIndex])
+                                                           row[colIndex])
 
     # write the file as above but for the HTML version
     try:
