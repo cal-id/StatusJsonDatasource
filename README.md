@@ -7,14 +7,19 @@ LDAP, EGI) and combine them on every page load. These scripts collect data from
 the same sources and convert them in a common format (JSON) that can be accessed
 by a Grafana Dashboard when they are served by a webserver.
 
+## Requirements
+- python2.7+
+- pip requirement in [requirements.txt](requirements.txt)
+- a webserver serving from `/var/www/html` (which is writable by the user running the update scripts)
+
 ## Setup for running the Python Scripts
 
-```
-# Populate secret.py
-cp secret_example.py secret.py
-# This file is not for github!
-vi secret.py  # At this stage, put the passwords / details in here!
+These are the commands to:
+1. Install OS dependencies (using `apt` or `yum`)
+2. Install pip dependencies
+3. Setup `secret.py` from [secret_example.py](secret_example.py)
 
+```
 # Install the simple stuff
 # Note that on SL6, python is python2.6 not python2.7 so you must use python3
 sudo yum install git python python34 python-pip
@@ -39,6 +44,11 @@ sudo yum install python-devel openldap-devel-2.4.40-12.el6 gcc
 sudo apt install httpd
 sudo yum install httpd
 sudo chown $USER /var/www/html/
+
+# Populate secret.py
+cp secret_example.py secret.py
+# This file is not for github!
+vi secret.py  # At this stage, put the passwords / details in here!
 
 # Use a virtual environment to avoid clashing with system pip packages
 python3 -m virtualenv python3
