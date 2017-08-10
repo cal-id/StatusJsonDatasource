@@ -18,13 +18,10 @@ Works with python2 or python3
 from __future__ import print_function
 import os
 from utils import writeFileWithLog
+from config import BASE_PATH
+
 
 # INITIAL SETUP
-
-BASE_PATH = "/var/www/html/grafanaJsonDatasources/"
-assert BASE_PATH[-1] == "/"
-
-
 def makeDirectoryWithLog(path):
     """Creates the folders (including parent folders) for a given path. This
     should log if there was a success or failure."""

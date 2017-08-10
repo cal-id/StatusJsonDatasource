@@ -1,6 +1,7 @@
 from __future__ import print_function
 from pg import DB  # from PyGreSQL import database function
 from secret import MAG_DBNAME, MAG_HOST, MAG_USER, MAG_PASSWD
+from config import BASE_PATH
 import json
 # get the json module so that the object can be serialized at the end
 
@@ -159,8 +160,8 @@ for item in listOfResults:
 
     jsonObj[0]["rows"].append(thisRow)
 
-writeFileWithLog("/var/www/html/grafanaJsonDatasources/"
-                 "diskServersInIntervention/query", json.dumps(jsonObj))
+writeFileWithLog(BASE_PATH + "diskServersInIntervention/query",
+                 json.dumps(jsonObj))
 
 # do the HTML version as well. This one formats the machine name with a link
 # which goes through to
@@ -175,6 +176,5 @@ if "machineName" in listOfSelectValues:
                          "?view:system:{}'>{}</a>").format(row[colIndex],
                                                            row[colIndex])
 
-    writeFileWithLog("/var/www/html/grafanaJsonDatasources/"
-                     "diskServersInInterventionHTML/query",
+    writeFileWithLog(BASE_PATH + "diskServersInInterventionHTML/query",
                      json.dumps(jsonObj))

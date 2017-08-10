@@ -3,6 +3,7 @@ import ldap
 from utils import writeFileWithLog
 import json  # get the json module for serializing
 from secret import LDAP_HOST
+from config import BASE_PATH
 jsonObj = [{
     "columns": [],
     "rows": [],
@@ -71,5 +72,4 @@ for vo in vo_list:
     thisRow.append(int(result["GlueSEUsedNearlineSize"][0]))
     jsonObj[0]["rows"].append(thisRow)
 
-writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage/query",
-                 json.dumps(jsonObj))
+writeFileWithLog(BASE_PATH + "storageUsage/query", json.dumps(jsonObj))

@@ -6,11 +6,13 @@ import xml.etree.ElementTree as ET
 
 from utils import writeFileWithLog
 
+from config import BASE_PATH
+
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # stop it complaining that its not checking certificates
 
-path = "/var/www/html/grafanaJsonDatasources/ggusTickets"
+path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
 r = requests.get(

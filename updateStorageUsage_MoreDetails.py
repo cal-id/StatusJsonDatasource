@@ -7,6 +7,7 @@ import ldap  # get the ldap module which is what we will use for the data
 import json  # get the json module so that the object can be serialized at the
 # end
 from secret import LDAP_HOST
+from config import BASE_PATH
 vo_list = [
     "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice", "minos", "na62",
     "snoplus", "t2k", "superb", "dirac"
@@ -93,5 +94,5 @@ for vo in vo_list:
         thisRow.append(int(row[1]['GlueSAUsedNearlineSize'][0]))
         jsonObj[0]["rows"].append(thisRow)
 
-    writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage"
-                     + vo.capitalize() + "/query", json.dumps(jsonObj))
+    writeFileWithLog(BASE_PATH + "storageUsage" + vo.capitalize() + "/query",
+                     json.dumps(jsonObj))

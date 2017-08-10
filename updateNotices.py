@@ -4,8 +4,9 @@ import json
 import requests  # To get noticeboard.txt
 from secret import NOTICES_ADDRESS
 from utils import writeFileWithLog
+from config import BASE_PATH
 
-path = "/var/www/html/grafanaJsonDatasources/notices/query"
+path = BASE_PATH + "notices/query"
 
 jsonObj = [{"columns": [], "rows": [], "type": "table"}]
 # the object which will eventually be converted into JSON

@@ -10,6 +10,8 @@ from utils import writeFileWithLog
 import os
 # for making the required folders
 
+from config import BASE_PATH
+
 import requests
 # for getting the data in the first place
 
@@ -106,7 +108,7 @@ def getData(year):
 
 # this is the path that the JSON will be served from + which ever name from the
 # list of named values below
-path = "/var/www/html/grafanaJsonDatasources/pledgesOverTime"
+path = BASE_PATH + "pledgesOverTime"
 
 # this is the dictionary of different data points that you get can from the
 # data

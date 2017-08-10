@@ -11,6 +11,7 @@ from os import makedirs  # to make folders
 import requests  # to make url requests
 import re  # to find the title in the URL
 from utils import writeFileWithLog
+from config import BASE_PATH
 
 print(__doc__)
 raise Exception("No longer working...")
@@ -109,7 +110,7 @@ for urlDict in listOfGangliaURLs:
         # assume that you only find one match for the title
         title = title[0]
 
-    path = "/var/www/html/grafanaJsonDatasources/fromGanglia"
+    path = BASE_PATH + "fromGanglia"
 
     try:
         # try making a folder to save everything in
