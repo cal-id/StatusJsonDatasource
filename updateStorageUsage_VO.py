@@ -71,5 +71,5 @@ for vo in vo_list:
     thisRow.append(int(result["GlueSEUsedNearlineSize"][0]))
     jsonObj[0]["rows"].append(thisRow)
 
-    writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage/query",
-                     json.dumps(jsonObj))
+writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage/query",
+                 json.dumps(jsonObj))
