@@ -184,7 +184,7 @@ if "machineName" in listOfSelectValues:
         # go through each row and change the value of the machine name col to a
         # html link
         row[colIndex] = ("<a href='https://overwatch.gridpp.rl.ac.uk/index.php"
-                         "?view:system:{}'>{}}</a>").format(row[colIndex],
+                         "?view:system:{}'>{}</a>").format(row[colIndex],
                                                             row[colIndex])
 
     # write the file as above but for the HTML version
