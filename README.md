@@ -18,7 +18,24 @@ These are the commands to:
 1. Install OS dependencies (using `apt` or `yum`)
 2. Install pip dependencies
 3. Setup `secret.py` from [secret_example.py](secret_example.py)
+4. Setup directory structure in `/var/www/html`
 
+### Using apt (Ubuntu)
+```
+# Install simple stuff
+sudo apt install python python3 git python3-pip python-pip
+
+# Install PostgreSQL requirements
+sudo apt install libpq-dev PostgreSQL python-dev python3-dev
+
+# Install pyldap requirements
+sudo apt install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
+
+# Install apache
+sudo apt install apache2
+```
+
+### Using yum (SL6)
 ```
 # Install the simple stuff
 # Note that on SL6, python is python2.6 not python2.7 so you must use python3
@@ -27,38 +44,41 @@ sudo yum install git python python34 python-pip
 sudo yum install -y python34-setuptools  # install easy_install-3.4
 sudo easy_install-3.4 pip
 
-# Clone the repo
-git clone https://github.com/cal-id/StatusJsonDatasource
-cd StatusJsonDatasource
-
 # Install PostgreSQL requirements
-sudo apt install libpq-dev PostgreSQL python-dev python3-dev
 sudo yum install libpqxx-devel postgresql python-devel python3-devel gcc
 
 # Install pyldap requirements
-sudo apt install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
 sudo yum install python-devel openldap-devel-2.4.40-12.el6 gcc
 # Had to use version number because -16 depended on openldap-16 which wasn't installed
 
-# Install appache2
-sudo apt install httpd
+# Install apache2
 sudo yum install httpd
+```
+
+### Non specific instructions
+Run these for both SL6 and Ubuntu
+```
+# All access to the webserver directory by user running these scripts
 sudo chown $USER /var/www/html/
+
+# Clone the repo
+git clone https://github.com/cal-id/StatusJsonDatasource
+cd StatusJsonDatasource
 
 # Populate secret.py
 cp secret_example.py secret.py
 # This file is not for github!
 vi secret.py  # At this stage, put the passwords / details in here!
 
-# Use a virtual environment to avoid clashing with system pip packages
+# Use a virtual environment to avoid clashing with system pip packages (optional)
 python3 -m virtualenv python3
-
 source python3/bin/activate   # activate the virtual environment
 
 # Install pip requirements
-pip install pyldap
-pip install requests
-pip install PyGreSQL
+pip install pyldap requests PyGreSQL
+
+# Setup the directory
+python setupFolders.py
 ```
 
 ## Elements
@@ -83,7 +103,6 @@ Element       | Why
 SAM Test      | Not currently working at the time of porting
 HTCondor Farm | Data is already in our Grafana instance
 
-## Setup
 
 ## Grafana Example
 Here, each element is discussed how it is before and after the move to Grafana.
