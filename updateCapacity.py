@@ -35,7 +35,7 @@ def getData(month, year):
 
 # this is the path that the JSON will be served from + which ever name from the
 # list of named values below
-path = BASE_PATH + "/capacityOverTime"
+path = BASE_PATH + "capacityOverTime"
 
 # this is the list of different data points that you get can from the data
 listOfNamedValues = [
