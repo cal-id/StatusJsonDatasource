@@ -1,6 +1,6 @@
 # get the ldap module which is what we will use for the data source
 import ldap
-import sys
+from utils import writeFileWithLog
 import json  # get the json module for serializing
 from secret import LDAP_HOST
 jsonObj = [{
@@ -71,19 +71,5 @@ for vo in vo_list:
     thisRow.append(int(result["GlueSEUsedNearlineSize"][0]))
     jsonObj[0]["rows"].append(thisRow)
 
-try:
-    # have to do it this way to ensure that the file system gets cleaned up
-    # if there is an error or something
-    with open(
-            "/var/www/html/grafanaJsonDatasources/storageUsage/query", "w"
-    ) as outputFile:
-        outputFile.write(
-            json.dumps(jsonObj)
-        )
-    # json.dumps is serializing the object, outputFile.write
-    # sends the text to the file
-except IOError:
-    raise Exception(
-        "This folder probably doesn't exist. Try running 'setupFolders.py' "
-        "from the directory that this python script is run from."
-    )
+    writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage/query",
+                     json.dumps(jsonObj))

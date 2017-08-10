@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import sys  # to check py3 vs py2
-
+from utils import writeFileWithLog
 import ldap  # get the ldap module which is what we will use for the data
 # source at the begining
 import json  # get the json module so that the object can be serialized at the
@@ -93,20 +93,5 @@ for vo in vo_list:
         thisRow.append(int(row[1]['GlueSAUsedNearlineSize'][0]))
         jsonObj[0]["rows"].append(thisRow)
 
-    try:
-        with open(
-                "/var/www/html/grafanaJsonDatasources/storageUsage" +
-                vo.capitalize() + "/query", "w"
-        ) as outputFile:
-            # have to do it this way to ensure that the file
-            # system gets cleaned up if there is an error or something
-            outputFile.write(
-                json.dumps(jsonObj)
-            )
-            # json.dumps is serializing the object, outputFile.write sends
-            # the text to the file
-    except IOError:
-        raise Exception(
-            "This folder probably doesn't exist. Try running 'setupFolders.py'"
-            "from the directory that this python script is run from."
-        )
+    writeFileWithLog("/var/www/html/grafanaJsonDatasources/storageUsage"
+                     + vo.capitalize() + "/query", json.dumps(jsonObj))

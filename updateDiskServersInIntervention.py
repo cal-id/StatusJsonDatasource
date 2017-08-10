@@ -4,6 +4,8 @@ from secret import MAG_DBNAME, MAG_HOST, MAG_USER, MAG_PASSWD
 import json
 # get the json module so that the object can be serialized at the end
 
+from utils import writeFileWithLog
+
 db = DB(dbname=MAG_DBNAME, host=MAG_HOST, user=MAG_USER, passwd=MAG_PASSWD)
 # log into the database as the object db
 
@@ -157,22 +159,8 @@ for item in listOfResults:
 
     jsonObj[0]["rows"].append(thisRow)
 
-try:
-    # convert to JSON and write to the file for serving to grafana
-    with open("/var/www/html/grafanaJsonDatasources/"
-              "diskServersInIntervention/query", "w") as outputFile:
-        # have to do it this way to ensure that the file system gets cleaned up
-        # if
-        # there is an error or something
-        outputFile.write(json.dumps(jsonObj))
-        # json.dumps is serializing the object
-        # outputFile.write sends the text to the file
-
-except IOError:
-    raise Exception(
-        "This folder probably doesn't exist. Try running 'setupFolders.py'"
-        "from the directory that this python script is run from."
-    )
+writeFileWithLog("/var/www/html/grafanaJsonDatasources/"
+                 "diskServersInIntervention/query", json.dumps(jsonObj))
 
 # do the HTML version as well. This one formats the machine name with a link
 # which goes through to
@@ -187,13 +175,6 @@ if "machineName" in listOfSelectValues:
                          "?view:system:{}'>{}</a>").format(row[colIndex],
                                                            row[colIndex])
 
-    # write the file as above but for the HTML version
-    try:
-        with open("/var/www/html/grafanaJsonDatasources/"
-                  "diskServersInInterventionHTML/query", "w") as outputFile:
-            outputFile.write(json.dumps(jsonObj))
-    except IOError:
-        raise Exception(
-            "This folder probably doesn't exist. Try running 'setupFolders.py'"
-            " from the directory that this python script is run from."
-        )
+    writeFileWithLog("/var/www/html/grafanaJsonDatasources/"
+                     "diskServersInInterventionHTML/query",
+                     json.dumps(jsonObj))

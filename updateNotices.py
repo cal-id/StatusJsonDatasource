@@ -3,6 +3,7 @@ import json
 # import json so that we can format output
 import requests  # To get noticeboard.txt
 from secret import NOTICES_ADDRESS
+from utils import writeFileWithLog
 
 path = "/var/www/html/grafanaJsonDatasources/notices/query"
 
@@ -48,11 +49,4 @@ for line in response.text.split("\n"):  # step through each line in the file
             cols[4]
         ])
 
-try:
-    with open(path, "w") as fh:
-        fh.write(json.dumps(jsonObj))
-except IOError:
-    print("This folder doesn't exist try running setupFolders.py in this "
-          "directory")
-else:
-    print("Written to JSON file")
+writeFileWithLog(path, json.dumps(jsonObj))

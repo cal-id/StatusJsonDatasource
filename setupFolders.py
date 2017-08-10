@@ -17,6 +17,7 @@ Works with python2 or python3
 
 from __future__ import print_function
 import os
+from utils import writeFileWithLog
 
 # INITIAL SETUP
 
@@ -50,23 +51,7 @@ def writeSearchFile(path, content):
     /var/www/html/grafanaJsonDatasources/diskServersInIntervention/search
     """
     filePath = os.path.join(path, "search")
-    try:
-        with open(filePath, "w") as searchFile:
-            searchFile.write(content)
-    # This error is IOError in python2 but OSError in python3
-    except (OSError, IOError) as ex:
-        if ex.args[1] == "Permission denied":
-            print("Could not create {}. You don't have permission!"
-                  .format(filePath))
-        if ex.args[1] == "No such file or directory":
-            print("You need to call makeDirectoryWithLog (which must succeed)"
-                  "before trying to create", path)
-        elif ex.args[1] == "File exists":
-            pass
-        else:
-            raise
-    else:
-        print(filePath, "was written")
+    writeFileWithLog(filePath, content)
 
 
 # DISK SERVERS IN INTERVENTION

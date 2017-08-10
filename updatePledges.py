@@ -5,6 +5,8 @@ import datetime
 import time
 # for formatting the time from a date
 
+from utils import writeFileWithLog
+
 import os
 # for making the required folders
 
@@ -154,18 +156,10 @@ for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
             jsonObj[index]["datapoints"].append([item, int(timestamp) * 1000])
             # convert timestap to an integer and miliseconds
 
-    with open(path + key + "/query", "w") as fh:
-        fh.write(json.dumps(jsonObj))
-        print("written file: " + path + key + "/query")
-
-    with open(path + key + "/search", "w") as fh:
-        fh.write(json.dumps(orderOfExperimentsInData))
-        print("written file: " + path + key + "/search")
-
-    with open(path + key + "SumOnly" + "/query", "w") as fh:
-        fh.write(json.dumps([jsonObj[-1]]))
-        print("written file: " + path + key + "SumOnly" + "/query")
-
-    with open(path + key + "SumOnly" + "/search", "w") as file:
-        file.write(json.dumps([orderOfExperimentsInData[-1]]))
-        print("written file: " + path + key + "SumOnly" + "/search")
+    writeFileWithLog(path + key + "/query", json.dumps(jsonObj))
+    writeFileWithLog(path + key + "/search",
+                     json.dumps(orderOfExperimentsInData))
+    writeFileWithLog(path + key + "SumOnly" + "/query",
+                     json.dumps([jsonObj[-1]]))
+    writeFileWithLog(path + key + "SumOnly" + "/search",
+                     json.dumps([orderOfExperimentsInData[-1]]))

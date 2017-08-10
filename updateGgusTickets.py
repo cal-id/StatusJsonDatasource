@@ -4,6 +4,8 @@ import requests  # to get the data
 # import the xml parser as a more manageable name
 import xml.etree.ElementTree as ET
 
+from utils import writeFileWithLog
+
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # stop it complaining that its not checking certificates
@@ -97,9 +99,4 @@ for xmlTicket in xmlRoot:
         # if not set it to empty string so this cell isn't obvious
     ])
 
-try:
-    with open(path + "/query", "w") as fh:
-        fh.write(json.dumps(jsonObj))
-        print("Written file at: " + path + "/query")
-except IOError:
-    print("This folder does not exist try running setupFolders.py")
+writeFileWithLog(path + "/query", json.dumps(jsonObj))
