@@ -123,7 +123,7 @@ for year in range(2009, datetime.datetime.now().year + 1):
 for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
     # Create the folders
     makeDirectoryWithLog(path + key)
-    makeDirectoryWithLog(path + key)
+    makeDirectoryWithLog(path + key + "SumOnly")
     # this is the order that the experiments occur in the data
     # on the old dashboard, SUM is the important metric
     orderOfExperimentsInData = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
