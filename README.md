@@ -131,7 +131,7 @@ Here, each element is discussed how it is before and after the move to Grafana.
 #### Grafana
 ![New screenshot](Screenshots/new/GGUS.PNG)
 - ID links through to ticket from GGUS as rich HTML
-- Code is 1 if ticket status is 'assigned' (grafana allows a rule to style based on the value of a column)
+- Code is 1 if ticket status is 'assigned' (Grafana allows a rule to style based on the value of a column)
 
 ### Storage Usage (GB)
 #### Before
@@ -151,13 +151,13 @@ Here, each element is discussed how it is before and after the move to Grafana.
 
 ### Ganglia Graphs
 
-Many of the ganglia graphs are already in our Grafana instance. Mainly for testing purposes / proof of concept, a ganglia datasource is provided. It takes the json version of the graphs for the standard time periods (1hr, 2hr, 4hr, 1d ... 10y) and combines it into one grafana compatible json time series.
+Many of the ganglia graphs are already in our Grafana instance. Mainly for testing purposes / proof of concept, a ganglia datasource is provided. It takes the JSON version of the graphs for the standard time periods (1hr, 2hr, 4hr, 1d ... 10y) and combines it into one Grafana compatible JSON time series.
 
 However, when tested on 09/08/2017, ganglia no longer returns these datapoints in its JSON. This means that the [updateGanglia.py script](../blob/master/updateGanglia.py) no longer works.
 
-If this were to be taken further, the corrent way to do this would be to pipe the data into InfluxDB. That way, the query would work and only the points for the current grafana view would be sent to the browser. Instead, all the points are sent on each load and grafana refuses to draw the points which aren't in the view (ie those from 10 years ago).
+If this were to be taken further, the correct way to do this would be to pipe the data into InfluxDB. That way, the query would work and only the points for the current Grafana view would be sent to the browser. Instead, all the points are sent on each load and Grafana refuses to draw the points which aren't in the view (i.e. those from 10 years ago).
 
-### Capacity + pledgesOverTime
+### Capacity + Pledges
 #### Before
 ![Old screenshot](Screenshots/old/capacity+pledges.PNG)
 - Current REBUS pledged and installed capacities shown
