@@ -21,7 +21,7 @@ def makeDirectoryWithLog(path):
         else:
             raise
     else:
-        print(path, "was created")
+        print("Created Dir: ", path)
 
 
 def writeFileWithLog(filePath, content):
