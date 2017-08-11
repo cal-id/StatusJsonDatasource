@@ -5,10 +5,7 @@ import datetime
 import time
 # for formatting the time from a date
 
-from utils import writeFileWithLog
-
-import os
-# for making the required folders
+from utils import writeFileWithLog, makeDirectoryWithLog
 
 from config import BASE_PATH
 
