@@ -173,8 +173,8 @@ if "machineName" in listOfSelectValues:
         # go through each row and change the value of the machine name col to a
         # html link
         row[colIndex] = ("<a href='https://overwatch.gridpp.rl.ac.uk/index.php"
-                         "?view:system:{}'>{}</a>").format(row[colIndex],
-                                                           row[colIndex])
+                         "?view:system:{0}'>{1}</a>").format(row[colIndex],
+                                                             row[colIndex])
 
     writeFileWithLog(BASE_PATH + "diskServersInInterventionHTML/query",
                      json.dumps(jsonObj))

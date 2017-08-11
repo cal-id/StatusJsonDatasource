@@ -27,7 +27,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 def getData(month, year):
     r = requests.get(
         "https://wlcg-rebus.cern.ch/apps/capacities/federation_sites/208/"
-        "{}/{}/json_datatables".format(year, month), verify=False)
+        "{0}/{1}/json_datatables".format(year, month), verify=False)
     # example return from this function:
     # {"aaData":[["EGI", "RAL-LCG2", 750, 9012, 90120, 13179200, 24443386]]}
     return r.text

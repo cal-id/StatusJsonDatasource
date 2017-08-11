@@ -8,77 +8,43 @@ the same sources and convert them in a common format (JSON) that can be accessed
 by a Grafana Dashboard when they are served by a webserver.
 
 ## Requirements
-- python2.7+
+- python2.6+
 - pip requirement in [requirements.txt](requirements.txt)
 - a webserver serving from `/var/www/html` (which is writable by the user running the update scripts)
 
 ## Setup for running the Python Scripts
 
 These are the commands to:
-1. Install OS dependencies (using `apt` or `yum`)
-2. Install pip dependencies
-3. Setup `secret.py` from [secret_example.py](secret_example.py)
-4. Setup directory structure in `/var/www/html`
+1. Install OS dependencies (`yum`)
+2. Setup `secret.py` from [secret_example.py](secret_example.py)
+3. Setup directory structure in `/var/www/html`
 
-### Using apt (Ubuntu)
+See [INSTALL_non_standard.md](INSTALL_non_standard.md) if you don't want to use a
+standard SL6 + yum + python2.6 setup (but still follow instructions for all).
+
+### Instructions for YUM + SL6 + python2.6
 ```
-# Install simple stuff
-sudo apt install python python3 git python3-pip python-pip
-
-# Install PostgreSQL requirements
-sudo apt install libpq-dev PostgreSQL python-dev python3-dev
-
-# Install pyldap requirements
-sudo apt install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
-
-# Install apache
-sudo apt install apache2
+# Install yum dependencies.
+sudo yum install git python httpd python-ldap PyGreSQL python-requests
 ```
 
-### Using yum (SL6)
+### Instructions for all
 ```
-# Install the simple stuff
-# Note that on SL6, python is python2.6 not python2.7 so you must use python3
-sudo yum install git python python34 python-pip
-# Yum doesn't provide pip3, instead:
-sudo yum install -y python34-setuptools  # install easy_install-3.4
-sudo easy_install-3.4 pip
-
-# Install PostgreSQL requirements
-sudo yum install libpqxx-devel postgresql python-devel python3-devel gcc
-
-# Install pyldap requirements
-sudo yum install python-devel openldap-devel-2.4.40-12.el6 gcc
-# Had to use version number because -16 depended on openldap-16 which wasn't installed
-
-# Install apache2
-sudo yum install httpd
-```
-
-### Non specific instructions
-Run these for both SL6 and Ubuntu
-```
-# All access to the webserver directory by user running these scripts
+# Allow access to the webserver directory by user running these scripts
+# Alternative base directory can be set in config.py
 sudo chown $USER /var/www/html/
 
 # Clone the repo
 git clone https://github.com/cal-id/StatusJsonDatasource
 cd StatusJsonDatasource
 
+# Setup the directory
+python setupFolders.py
+
 # Populate secret.py
 cp secret_example.py secret.py
 # This file is not for github!
-vi secret.py  # At this stage, put the passwords / details in here!
-
-# Use a virtual environment to avoid clashing with system pip packages (optional)
-python3 -m virtualenv python3
-source python3/bin/activate   # activate the virtual environment
-
-# Install pip requirements
-pip install pyldap requests PyGreSQL
-
-# Setup the directory
-python setupFolders.py
+vi secret.py  # At this stage, put the passwords / details in here
 ```
 
 ## Elements

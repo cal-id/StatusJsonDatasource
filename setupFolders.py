@@ -31,7 +31,7 @@ def makeDirectoryWithLog(path):
         if ex.args[1] == "Permission denied":
             # In python3.3+ there is a Permission Error but it inherits from
             # OSError
-            print("Could not create {}. You don't have permission!"
+            print("Could not create {0}. You don't have permission!"
                   .format(path))
         elif ex.args[1] == "File exists":
             pass

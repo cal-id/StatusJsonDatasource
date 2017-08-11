@@ -24,7 +24,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # define a function which gets the required JSON data for a specific year
 def getData(year):
     r = requests.get("http://wlcg-rebus.cern.ch/apps/pledges/resources/"
-                     "federation/208/{}/json_datatables".format(year),
+                     "federation/208/{0}/json_datatables".format(year),
                      verify=False)
     return r.text
 

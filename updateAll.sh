@@ -1,7 +1,7 @@
-python -c "import sys; assert sys.version_info > (2,7)"
+python -c "import sys; assert sys.version_info > (2, 6)"
 if [ $? -eq 1 ]
 then
-    echo "Use python2.7+"
+    echo "Use python2.6+"
     exit 1
 fi
 

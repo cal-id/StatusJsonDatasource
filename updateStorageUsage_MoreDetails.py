@@ -85,7 +85,7 @@ for vo in vo_list:
                 int(row[1]['GlueSAUsedOnlineSize'][0]) * 100 /
                 int(row[1]['GlueSATotalOnlineSize'][0]))))
         except ZeroDivisionError:
-            print("Got zero online size for vo: {} at {}"
+            print("Got zero online size for vo: {0} at {1}"
                   .format(vo, localId))
             thisRow.append(0)
         thisRow.append(int(row[1]['GlueSAUsedOnlineSize'][0]))

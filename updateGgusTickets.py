@@ -85,7 +85,7 @@ for xmlTicket in xmlRoot:
 
     # setup the link here for readability
     linkToTicket = ("<a href='https://ggus.eu/index.php?"
-                    "mode=ticket_info&amp;ticket_id={}'>{}</a>"
+                    "mode=ticket_info&amp;ticket_id={0}'>{1}</a>"
                     ).format(storedId, storedId)
 
     jsonObj[0]["rows"].append([

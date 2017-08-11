@@ -105,7 +105,7 @@ for downtimeEntry in xmlRoot:
         dictionaryOfDowntimeIdAgainstRows[dtID] = [
             # make the id a link to more info
             "<a href='https://goc.egi.eu/portal/index.php?"
-            "Page_Type=Downtime&id={}'>{}</a>".format(dtID, dtID),
+            "Page_Type=Downtime&id={0}'>{1}</a>".format(dtID, dtID),
             # find the first tag 'HOSTNAME'
             # set it to be in the hosts column provided that the downtime is
             # ongoing or in the future
