@@ -125,18 +125,8 @@ for year in range(2009, datetime.datetime.now().year + 1):
 
 for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
     # Create the folders
-    try:
-        os.makedirs(path + key)
-        print("folder created: " + path + key)
-    except OSError:
-        print("folder already exists: " + path + key)
-
-    try:
-        os.makedirs(path + key + "SumOnly")
-        print("folder created: " + path + key)
-    except OSError:
-        print("folder already exists: " + path + key)
-
+    makeDirectoryWithLog(path + key)
+    makeDirectoryWithLog(path + key)
     # this is the order that the experiments occur in the data
     # on the old dashboard, SUM is the important metric
     orderOfExperimentsInData = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]

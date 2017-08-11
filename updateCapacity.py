@@ -6,13 +6,10 @@ import datetime
 import time
 # for formatting the time from a date
 
-import os
-# for making the required folders
-
 import requests
 # for getting the data in the first place
 
-from utils import writeFileWithLog
+from utils import writeFileWithLog, makeDirectoryWithLog
 
 from config import BASE_PATH
 
@@ -69,12 +66,7 @@ for year in range(2011, currentYear + 1):
             timeData.append(toAppend)
 
 for index, name in enumerate(listOfNamedValues):
-    try:
-        os.makedirs(path + name)
-        print("folder created: " + path + name)
-    except OSError:
-        print("folder already exists: " + path + name)
-
+    makeDirectoryWithLog(path + name)
     jsonObj = [{"target": name, "datapoints": []}]
 
     for item in timeData:

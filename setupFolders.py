@@ -17,28 +17,8 @@ Works with python2 or python3
 
 from __future__ import print_function
 import os
-from utils import writeFileWithLog
+from utils import writeFileWithLog, makeDirectoryWithLog
 from config import BASE_PATH
-
-
-# INITIAL SETUP
-def makeDirectoryWithLog(path):
-    """Creates the folders (including parent folders) for a given path. This
-    should log if there was a success or failure."""
-    try:
-        os.makedirs(path)
-    except OSError as ex:
-        if ex.args[1] == "Permission denied":
-            # In python3.3+ there is a Permission Error but it inherits from
-            # OSError
-            print("Could not create {0}. You don't have permission!"
-                  .format(path))
-        elif ex.args[1] == "File exists":
-            pass
-        else:
-            raise
-    else:
-        print(path, "was created")
 
 
 def writeSearchFile(path, content):

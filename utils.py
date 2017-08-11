@@ -2,6 +2,27 @@
 updateX.py scripts. They are imported in each script to avoid repetition.
 """
 from __future__ import print_function
+import os
+
+
+def makeDirectoryWithLog(path):
+    """Creates the folders (including parent folders) for a given path. This
+    should log if there was a success or failure."""
+    try:
+        os.makedirs(path)
+    except OSError as ex:
+        if ex.args[1] == "Permission denied":
+            # In python3.3+ there is a Permission Error but it inherits from
+            # OSError
+            print("Could not create {0}. You don't have permission!"
+                  .format(path))
+        elif ex.args[1] == "File exists":
+            pass
+        else:
+            raise
+    else:
+        print(path, "was created")
+
 
 def writeFileWithLog(filePath, content):
     """Writes file with path `filePath` using the *text* content `content`.
