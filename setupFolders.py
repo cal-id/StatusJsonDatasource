@@ -9,7 +9,7 @@ This script sets up the folders for some of the datasources:
 For each data source, it creates a top directory:
     BASE_PATH + "something_to_identify_the_datasource"
 
-And a search file with in this top directory. This file is downloaded by
+And a search file within this top directory. This file is downloaded by
 Grafana to give it the titles of the data in this URL.
 
 Works with python2 or python3

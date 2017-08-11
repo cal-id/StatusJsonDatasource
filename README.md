@@ -8,19 +8,21 @@ the same sources and convert them in a common format (JSON) that can be accessed
 by a Grafana Dashboard when they are served by a webserver.
 
 ## Requirements
-- python2.6+
-- pip requirement in [requirements.txt](requirements.txt)
+- `python2.6`
+- yum packages: `python-ldap` `PyGreSQL` `python-requests`
 - a webserver serving from `/var/www/html` (which is writable by the user running the update scripts)
+
+*This should work on python2.6+ but the dependencies (installed using yum) are build for python2.6. For later versions of python, instead of the repo, the pip packages are: pyldap, requests, PyGreSQL*
 
 ## Setup for running the Python Scripts
 
 These are the commands to:
-1. Install OS dependencies (`yum`)
-2. Setup `secret.py` from [secret_example.py](secret_example.py)
+1. Install dependencies
+2. Setup `secret.py` from [secret_example.py](secret_example.py) (this contains sensitive data, not to be uploaded to GitHub)
 3. Setup directory structure in `/var/www/html`
 
-See [INSTALL_non_standard.md](INSTALL_non_standard.md) if you don't want to use a
-standard SL6 + yum + python2.6 setup (but still follow instructions for all).
+*If using YUM + SL6 + python2.6, follow the instructions here. Otherwise see [INSTALL_non_standard.md](INSTALL_non_standard.md)
+(but both follow commands under instructions for all).*
 
 ### Instructions for YUM + SL6 + python2.6
 ```
