@@ -49,3 +49,16 @@ URL_GGUS_TICKETS = "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml"
 # This is used in updateGgusTickets.py
 URL_GGUS_SPECIFIC_TICKET = ("https://ggus.eu/index.php?"
                             "mode=ticket_info&amp;ticket_id={0}")
+
+# The return from a WLCG capacity query looks like this:
+# {"aaData": [["EGI", "RAL-LCG2", 1660, 9472, 88781, 8909805, 10264504]]}
+# This list specifies the labels of the data [2:]
+# For example ["Physical CPU", "Logical CPU", "HEPSPEC06", "Disk", "Tape"]
+# Would specify:
+#   - 1660         Physical CPU
+#   - 9472         Logical CPU
+#   - 88781        HEPSPEC06
+#   - 8909805      DISK
+#   - 10264504     TAPE
+CAPACITY_DATA_LABELS = ["Physical CPU", "Logical CPU", "HEPSPEC06", "Disk",
+                        "Tape"]

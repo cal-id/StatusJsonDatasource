@@ -1,22 +1,14 @@
 from __future__ import print_function
 import json  # for formatting the output
-# for fomatting the output
-
 import datetime
-import time
-# for formatting the time from a date
-
-import requests
-# for getting the data in the first place
-
-from utils import writeFileWithLog, makeDirectoryWithLog
-
-from config import BASE_PATH, URL_WLCG_CAPACITIES
-
+import time  # for formatting the time from a date
+import requests  # for getting the data in the first place
+from utils import writeFileWithLog
+from config import BASE_PATH, URL_WLCG_CAPACITIES, CAPACITY_DATA_LABELS
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-# stop it complaining that its not checking certificates
+# Stop it complaining that its not checking certificates
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 # define a function which gets the required JSON data for a specific year and
@@ -32,10 +24,6 @@ def getData(month, year):
 # list of named values below
 path = BASE_PATH + "capacityOverTime"
 
-# this is the list of different data points that you get can from the data
-listOfNamedValues = [
-    "Physical CPU", "Logical CPU", "HEPSPEC06", "Disk", "Tape"
-]
 
 # setup the list of data points that we will get from the json data source
 timeData = []
@@ -64,15 +52,18 @@ for year in range(2011, currentYear + 1):
             toAppend[1] = month
             timeData.append(toAppend)
 
-for index, name in enumerate(listOfNamedValues):
-    makeDirectoryWithLog(path + name)
+# Step through each of the capacity labels: CPU, HESPEC06... etc
+# Keep track of the index which links the label to a column in the returned
+# data.
+for index, name in enumerate(CAPACITY_DATA_LABELS):
     jsonObj = [{"target": name, "datapoints": []}]
-
+    # Step through each datapoint. Create a Grafana-friendly
+    # timestamp and append it to a jsonObj which will be served from the
+    # 'query' URL.
     for item in timeData:
         dt = datetime.datetime(year=item[0], month=item[1], day=1)
         timestamp = time.mktime(dt.timetuple())
-        jsonObj[0]["datapoints"].append(
-            [item[index + 2], int(timestamp) * 1000])
-
+        jsonObj[0]["datapoints"].append([item[index + 2],
+                                         int(timestamp) * 1000])
+    # Write the query string
     writeFileWithLog(path + name + "/query", json.dumps(jsonObj))
-    writeFileWithLog(path + name + "/search", json.dumps([name]))
