@@ -141,8 +141,9 @@ for item in listOfResults:
         except KeyError:
             # if there is a key error then it wasn't returned from the database
             # for the moment this means just print a blank row
-            # TODO: this should be logged or something
             toAppend = ""
+            print(selectValue,
+                  "was not returned from magdb, leaving blank cell.")
         thisRow.append(toAppend)
         if selectValue == "diskPool":
             # if we are in the diskPool column then we need to add a column for
