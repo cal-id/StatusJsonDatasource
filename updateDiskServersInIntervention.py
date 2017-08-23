@@ -73,8 +73,7 @@ queryString += (' from "vCastor" '
 # get a query object
 query = db.query(queryString)
 
-listOfResults = query.dictresult(
-)  # TODO: what happens if there are no results?
+listOfResults = query.dictresult()
 # this is a list of dictionaries which have keys defined by the select values
 # above
 # an example of a return (only one item in list):
