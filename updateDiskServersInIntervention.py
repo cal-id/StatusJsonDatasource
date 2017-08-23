@@ -153,10 +153,11 @@ for item in listOfResults:
             except KeyError:
                 # if there isnt a mapping this is probably a problem so log
                 # this
-                # TODO: log this
                 # For the moment we can just assume no spacetoken for this
                 # diskpool
                 thisRow.append("")
+                print("No spacetoken for this diskpool:", toAppend,
+                      ". Leaving this blank.")
 
     jsonObj[0]["rows"].append(thisRow)
 
