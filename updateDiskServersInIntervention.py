@@ -107,7 +107,6 @@ spaceTokenMap = {
     "atlasStripInput": "ATLASDATADISK",
     "atlasT0Raw": "ATLASDATATAPE",
     "atlasTape": "ATLASDATATAPE",
-    # TODO: cedaDiskTest is NOT in this mapping...
     "cmsFarmRead": "cmsFarmRead",
     "cmsSpare": "",
     "cmsTest": "",
