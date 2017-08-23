@@ -11,7 +11,7 @@ import requests
 
 from utils import writeFileWithLog, makeDirectoryWithLog
 
-from config import BASE_PATH
+from config import BASE_PATH, URL_WLCG_CAPACITIES
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -22,9 +22,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # define a function which gets the required JSON data for a specific year and
 # month
 def getData(month, year):
-    r = requests.get(
-        "https://wlcg-rebus.cern.ch/apps/capacities/federation_sites/208/"
-        "{0}/{1}/json_datatables".format(year, month), verify=False)
+    r = requests.get(URL_WLCG_CAPACITIES.format(year, month), verify=False)
     # example return from this function:
     # {"aaData":[["EGI", "RAL-LCG2", 750, 9012, 90120, 13179200, 24443386]]}
     return r.text

@@ -7,3 +7,9 @@ share the same configuration.
 # setupFolders.py creates this path and the sub directories
 BASE_PATH = "/var/www/html/grafanaJsonDatasources/"
 assert BASE_PATH[-1] == "/"
+
+# The wlcg address where the json for capacity can be obtained.
+# {0} is replaced by format() with the year
+# {1} is replaced by format() with the month
+URL_WLCG_CAPACITIES = ("https://wlcg-rebus.cern.ch/apps/capacities/"
+                       "federation_sites/208/{0}/{1}/json_datatables")
