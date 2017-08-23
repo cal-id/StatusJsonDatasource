@@ -18,7 +18,8 @@ Works with python2 or python3
 from __future__ import print_function
 import os
 from utils import writeFileWithLog, makeDirectoryWithLog
-from config import BASE_PATH
+from config import BASE_PATH, CAPACITY_DATA_LABELS
+import json
 
 
 def writeSearchFile(path, content):
@@ -51,6 +52,11 @@ writeSearchFile(BASE_PATH + "ggusTickets", '["GGUS Tickets"]')
 # NOTICES
 makeDirectoryWithLog(BASE_PATH + "notices")
 writeSearchFile(BASE_PATH + "notices", '["Notices"]')
+
+# CAPACITY
+for name in CAPACITY_DATA_LABELS:
+    makeDirectoryWithLog(BASE_PATH + "capacityOverTime" + name)
+    writeSearchFile(BASE_PATH + "capacityOverTime" + name, json.dumps([name]))
 
 # STORAGE USAGE
 vo_list = [None, "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice",
