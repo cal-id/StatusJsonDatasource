@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import time  # so we can tell if a downtime is ongoin
 from config import BASE_PATH, URL_GOC_DOWNTIMES, URL_GOC_SPECIFIC_DOWNTIME
 
-from utils import writeFileWithLog
+from utils import writeFileWithLog, createHTMLLinkString
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -101,10 +101,9 @@ for downtimeEntry in xmlRoot:
         # added to the list of downtime ids
         listOfEncounteredDowntimeIds.append(dtID)
 
-        href = URL_GOC_SPECIFIC_DOWNTIME.format(dtID)
         dictionaryOfDowntimeIdAgainstRows[dtID] = [
             # make the id a link to more info
-            "<a href='{0}'>{1}</a>".format(href, dtID),
+            createHTMLLinkString(URL_GOC_SPECIFIC_DOWNTIME, dtID),
             # find the first tag 'HOSTNAME'
             # set it to be in the hosts column provided that the downtime is
             # ongoing or in the future

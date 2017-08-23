@@ -5,7 +5,7 @@ from config import BASE_PATH, URL_OVERWATCH_MACHINE_NAME
 import json
 # get the json module so that the object can be serialized at the end
 
-from utils import writeFileWithLog
+from utils import writeFileWithLog, createHTMLLinkString
 
 db = DB(dbname=MAG_DBNAME, host=MAG_HOST, user=MAG_USER, passwd=MAG_PASSWD)
 # log into the database as the object db
@@ -173,8 +173,8 @@ if "machineName" in listOfSelectValues:
         # go through each row and change the value of the machine name col to a
         # html link
         machineName = row[colIndex]
-        href = URL_OVERWATCH_MACHINE_NAME.format(machineName)
-        row[colIndex] = ("<a href='{0}'>{1}</a>").format(href, machineName)
+        row[colIndex] = createHTMLLinkString(URL_OVERWATCH_MACHINE_NAME,
+                                             machineName)
 
     writeFileWithLog(BASE_PATH + "diskServersInInterventionHTML/query",
                      json.dumps(jsonObj))

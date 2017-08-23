@@ -4,7 +4,7 @@ import requests  # to get the data
 # import the xml parser as a more manageable name
 import xml.etree.ElementTree as ET
 
-from utils import writeFileWithLog
+from utils import writeFileWithLog, createHTMLLinkString
 
 from config import BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET
 
@@ -81,8 +81,7 @@ for xmlTicket in xmlRoot:
     storedStatus = xmlTicket.find("status").text
 
     # setup the link here for readability
-    href = URL_GGUS_SPECIFIC_TICKET.format(storedId)
-    linkToTicket = "<a href='{0}'>{1}</a>".format(href, storedId)
+    linkToTicket = createHTMLLinkString(URL_GGUS_SPECIFIC_TICKET, storedId)
 
     jsonObj[0]["rows"].append([
         linkToTicket,  # parse the id into an integer
