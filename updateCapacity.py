@@ -54,7 +54,8 @@ for year in range(2011, currentYear + 1):
             # this is just the way that REBUS returns its data,
             # there is nothing special about the string aaData
         except IndexError:
-            print("Index Error while getting this data: ", year, month)
+            print("Index Error while getting capacity data from "
+                  "year: {0}, month: {1}".format(year, month))
             # this is necessary because some of the entries in 2012
             # are not in the system for some reason
         else:
