@@ -43,3 +43,15 @@ def writeFileWithLog(filePath, content):
             raise
     else:
         print("Written file at:", filePath)
+
+
+def createHTMLLinkString(preFormattedHref, name):
+    """Takes a `preFormattedHref` string which contains {0} to be formatted with
+    `name` and returns a string which contains the HTML for an <a> link tag to
+    this formatted href with the value of name.
+
+    This is included here because it is a function that is repeated in three
+    different scripts to create a HTML link in Grafana.
+    """
+    href = preFormattedHref.format(name)
+    return "<a href='{0}'>{1}</a>".format(href, name)
