@@ -7,7 +7,7 @@ import time
 
 from utils import writeFileWithLog, makeDirectoryWithLog
 
-from config import BASE_PATH
+from config import BASE_PATH, URL_WLCG_PLEDGES
 
 import requests
 # for getting the data in the first place
@@ -20,9 +20,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # define a function which gets the required JSON data for a specific year
 def getData(year):
-    r = requests.get("http://wlcg-rebus.cern.ch/apps/pledges/resources/"
-                     "federation/208/{0}/json_datatables".format(year),
-                     verify=False)
+    r = requests.get(URL_WLCG_PLEDGES.format(year), verify=False)
     return r.text
 
 

@@ -4,7 +4,7 @@ import requests  # to get the data
 import xml.etree.ElementTree as ET
 # import the xml parser as a more manageable name
 import time  # so we can tell if a downtime is ongoin
-from config import BASE_PATH
+from config import BASE_PATH, URL_GOC_DOWNTIMES, URL_GOC_SPECIFIC_DOWNTIME
 
 from utils import writeFileWithLog
 
@@ -15,8 +15,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "downtimes"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get("https://goc.egi.eu/gocdbpi/public/"
-                 "?method=get_downtime&topentity=RAL-LCG2", verify=False)
+r = requests.get(URL_GOC_DOWNTIMES, verify=False)
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document
@@ -102,10 +101,10 @@ for downtimeEntry in xmlRoot:
         # added to the list of downtime ids
         listOfEncounteredDowntimeIds.append(dtID)
 
+        href = URL_GOC_SPECIFIC_DOWNTIME.format(dtID)
         dictionaryOfDowntimeIdAgainstRows[dtID] = [
             # make the id a link to more info
-            "<a href='https://goc.egi.eu/portal/index.php?"
-            "Page_Type=Downtime&id={0}'>{1}</a>".format(dtID, dtID),
+            "<a href='{0}'>{1}</a>".format(href, dtID),
             # find the first tag 'HOSTNAME'
             # set it to be in the hosts column provided that the downtime is
             # ongoing or in the future

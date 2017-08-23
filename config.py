@@ -7,3 +7,45 @@ share the same configuration.
 # setupFolders.py creates this path and the sub directories
 BASE_PATH = "/var/www/html/grafanaJsonDatasources/"
 assert BASE_PATH[-1] == "/"
+
+# The wlcg address where the json for capacity can be obtained.
+# {0} is replaced by format() with the year
+# {1} is replaced by format() with the month
+# This is used in updateCapacity.py
+URL_WLCG_CAPACITIES = ("https://wlcg-rebus.cern.ch/apps/capacities/"
+                       "federation_sites/208/{0}/{1}/json_datatables")
+
+# The wlcg address where the json for pledges can be obtained.
+# {0} is replaced by format() with the year
+# This is used in updatePledges.py
+URL_WLCG_PLEDGES = ("http://wlcg-rebus.cern.ch/apps/pledges/resources/"
+                    "federation/208/{0}/json_datatables")
+
+# The web address for GOCDB where the xml for downtimes at RAL can be accessed
+# This is used in updateDowntimes.py
+URL_GOC_DOWNTIMES = ("https://goc.egi.eu/gocdbpi/public/?"
+                     "method=get_downtime&topentity=RAL-LCG2")
+
+# The web address which will link through to more information about a specific
+# GOCDB downtime id.
+# {0} is replaced by format() with the specific downtime id
+# This is used in updateDowntimes.py
+URL_GOC_SPECIFIC_DOWNTIME = ("https://goc.egi.eu/portal/index.php?"
+                             "Page_Type=Downtime&id={0}")
+
+# The web address to link through to a specific machine in overwatch
+# {0} is replaced by format() with machineName returned by magdb
+# This is used in updateDiskServersInIntervention.py
+URL_OVERWATCH_MACHINE_NAME = ("https://overwatch.gridpp.rl.ac.uk/index.php?"
+                              "view:system:{0}")
+
+# The web address to get xml formatted GGUS tickets
+# This is used in updateGgusTickets.py
+URL_GGUS_TICKETS = "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml"
+
+# The webaddress to link through to more information about a specific ggus
+# ticket.
+# {0} is replaced by format() with the ggus ticket id
+# This is used in updateGgusTickets.py
+URL_GGUS_SPECIFIC_TICKET = ("https://ggus.eu/index.php?"
+                            "mode=ticket_info&amp;ticket_id={0}")

@@ -1,7 +1,7 @@
 from __future__ import print_function
 from pg import DB  # from PyGreSQL import database function
 from secret import MAG_DBNAME, MAG_HOST, MAG_USER, MAG_PASSWD
-from config import BASE_PATH
+from config import BASE_PATH, URL_OVERWATCH_MACHINE_NAME
 import json
 # get the json module so that the object can be serialized at the end
 
@@ -171,9 +171,9 @@ if "machineName" in listOfSelectValues:
     for row in jsonObj[0]["rows"]:
         # go through each row and change the value of the machine name col to a
         # html link
-        row[colIndex] = ("<a href='https://overwatch.gridpp.rl.ac.uk/index.php"
-                         "?view:system:{0}'>{1}</a>").format(row[colIndex],
-                                                             row[colIndex])
+        machineName = row[colIndex]
+        href = URL_OVERWATCH_MACHINE_NAME.format(machineName)
+        row[colIndex] = ("<a href='{0}'>{1}</a>").format(href, machineName)
 
     writeFileWithLog(BASE_PATH + "diskServersInInterventionHTML/query",
                      json.dumps(jsonObj))

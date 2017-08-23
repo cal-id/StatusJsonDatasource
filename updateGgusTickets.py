@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 from utils import writeFileWithLog
 
-from config import BASE_PATH
+from config import BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -15,10 +15,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get(
-    "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml",
-    # TODO: test this when I have a certicate and can use the real location
-    verify=False)
+# TODO: test this when I have a certicate and can use the real location
+r = requests.get(URL_GGUS_TICKETS, verify=False)
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document
@@ -84,9 +82,8 @@ for xmlTicket in xmlRoot:
     storedStatus = xmlTicket.find("status").text
 
     # setup the link here for readability
-    linkToTicket = ("<a href='https://ggus.eu/index.php?"
-                    "mode=ticket_info&amp;ticket_id={0}'>{1}</a>"
-                    ).format(storedId, storedId)
+    href = URL_GGUS_SPECIFIC_TICKET.format(storedId)
+    linkToTicket = "<a href='{0}'>{1}</a>".format(href, storedId)
 
     jsonObj[0]["rows"].append([
         linkToTicket,  # parse the id into an integer
