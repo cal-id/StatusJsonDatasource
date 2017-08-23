@@ -70,7 +70,6 @@ for vo in vo_list:
         # each vo is one row of content, thisRow will eventually be appended
         # onto jsonObj[0]["rows"]
         # row[1]['GlueSALocalID'][0] is diskpool name
-        # TODO: is this the correct term?
         # row[1]['GlueSAUsedOnlineSize'][0] is Disk Used
         # row[1]['GlueSAFreeOnlineSize'][0] is Disk Free
         # row[1]['GlueSATotalOnlineSize'][0] is Disk Total
