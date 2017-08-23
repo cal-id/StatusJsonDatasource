@@ -18,7 +18,8 @@ Works with python2 or python3
 from __future__ import print_function
 import os
 from utils import writeFileWithLog, makeDirectoryWithLog
-from config import BASE_PATH, CAPACITY_DATA_LABELS
+from config import (BASE_PATH, CAPACITY_DATA_LABELS, PLEDGES_ROW_DATA_LABELS,
+                    PLEDGES_EXPERIMENT_DATA_LABELS)
 import json
 
 
@@ -57,6 +58,15 @@ writeSearchFile(BASE_PATH + "notices", '["Notices"]')
 for name in CAPACITY_DATA_LABELS:
     makeDirectoryWithLog(BASE_PATH + "capacityOverTime" + name)
     writeSearchFile(BASE_PATH + "capacityOverTime" + name, json.dumps([name]))
+
+for key in PLEDGES_ROW_DATA_LABELS:
+    makeDirectoryWithLog(BASE_PATH + "pledgesOverTime" + key)
+    writeSearchFile(BASE_PATH + "pledgesOverTime" + key,
+                    json.dumps(PLEDGES_EXPERIMENT_DATA_LABELS))
+    makeDirectoryWithLog(BASE_PATH + "pledgesOverTime" + key + "SumOnly")
+    writeSearchFile(BASE_PATH + "pledgesOverTime" + key + "SumOnly",
+                    json.dumps([PLEDGES_EXPERIMENT_DATA_LABELS[-1]]))
+
 
 # STORAGE USAGE
 vo_list = [None, "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice",
