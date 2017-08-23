@@ -4,7 +4,7 @@ import requests  # to get the data
 import xml.etree.ElementTree as ET
 # import the xml parser as a more manageable name
 import time  # so we can tell if a downtime is ongoin
-from config import BASE_PATH
+from config import BASE_PATH, URL_GOC_DOWNTIMES
 
 from utils import writeFileWithLog
 
@@ -15,8 +15,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "downtimes"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get("https://goc.egi.eu/gocdbpi/public/"
-                 "?method=get_downtime&topentity=RAL-LCG2", verify=False)
+r = requests.get(URL_GOC_DOWNTIMES, verify=False)
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document

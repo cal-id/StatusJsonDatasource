@@ -13,3 +13,7 @@ assert BASE_PATH[-1] == "/"
 # {1} is replaced by format() with the month
 URL_WLCG_CAPACITIES = ("https://wlcg-rebus.cern.ch/apps/capacities/"
                        "federation_sites/208/{0}/{1}/json_datatables")
+
+# The web address where the xml for downtimes at RAL can be accessed
+URL_GOC_DOWNTIMES = ("https://goc.egi.eu/gocdbpi/public/?"
+                     "method=get_downtime&topentity=RAL-LCG2")
