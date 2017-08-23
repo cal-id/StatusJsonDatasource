@@ -15,7 +15,6 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
-# TODO: test this when I have a certicate and can use the real location
 r = requests.get(URL_GGUS_TICKETS, verify=False)
 
 xmlRoot = ET.fromstring(r.text)
