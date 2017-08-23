@@ -62,3 +62,16 @@ URL_GGUS_SPECIFIC_TICKET = ("https://ggus.eu/index.php?"
 #   - 10264504     TAPE
 CAPACITY_DATA_LABELS = ["Physical CPU", "Logical CPU", "HEPSPEC06", "Disk",
                         "Tape"]
+
+# The return from a WLCG pledges query contains three rows of data. This
+# list should contain the first word of the first element in each row.
+PLEDGES_ROW_DATA_LABELS = ["CPU", "Disk", "Tape"]
+
+# The return from a WLCG pledges query contains five groups of four in each row
+# after the row header (first element). This list gives the lables for each of
+# those five sections of data.
+# For example ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"] says that
+# indicies 1-4 refer to the alice experiment
+# indicies 5-8 refer to the atlas experiment
+# indicies 9-12 etc..
+PLEDGES_EXPERIMENT_DATA_LABELS = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
