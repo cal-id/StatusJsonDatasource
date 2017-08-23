@@ -61,10 +61,6 @@ for year in range(2009, datetime.datetime.now().year + 1):
         dictionaryOfTimeData[key].append(toAppend)
 
 for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
-    # Create the folders
-    makeDirectoryWithLog(path + key)
-    makeDirectoryWithLog(path + key + "SumOnly")
-
     # For each of CPU, Disk, Tape (`key`): dictionaryOfTimeData[key]
     # stores a list of each years worth of column entries (see above).
     # Each column entries list starts with the year (replacing the key) and is
@@ -97,9 +93,5 @@ for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
             jsonObj[index]["datapoints"].append([item, timestamp])
 
     writeFileWithLog(path + key + "/query", json.dumps(jsonObj))
-    writeFileWithLog(path + key + "/search",
-                     json.dumps(PLEDGES_EXPERIMENT_DATA_LABELS))
     writeFileWithLog(path + key + "SumOnly" + "/query",
                      json.dumps([jsonObj[-1]]))
-    writeFileWithLog(path + key + "SumOnly" + "/search",
-                     json.dumps([PLEDGES_EXPERIMENT_DATA_LABELS[-1]]))
