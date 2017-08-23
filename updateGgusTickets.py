@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 from utils import writeFileWithLog
 
-from config import BASE_PATH
+from config import BASE_PATH, URL_GGUS_TICKETS
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -15,10 +15,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get(
-    "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml",
-    # TODO: test this when I have a certicate and can use the real location
-    verify=False)
+# TODO: test this when I have a certicate and can use the real location
+r = requests.get(URL_GGUS_TICKETS, verify=False)
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document

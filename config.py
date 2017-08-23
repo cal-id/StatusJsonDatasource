@@ -32,3 +32,7 @@ URL_GOC_SPECIFIC_DOWNTIME = ("https://goc.egi.eu/portal/index.php?"
 # This is used in updateDiskServersInIntervention.py
 URL_OVERWATCH_MACHINE_NAME = ("https://overwatch.gridpp.rl.ac.uk/index.php?"
                               "view:system:{0}")
+
+# The web address to get xml formatted GGUS tickets
+# This is used in updateGgusTickets.py
+URL_GGUS_TICKETS = "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml"
