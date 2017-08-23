@@ -107,7 +107,6 @@ spaceTokenMap = {
     "atlasStripInput": "ATLASDATADISK",
     "atlasT0Raw": "ATLASDATATAPE",
     "atlasTape": "ATLASDATATAPE",
-    # TODO: cedaDiskTest is NOT in this mapping...
     "cmsFarmRead": "cmsFarmRead",
     "cmsSpare": "",
     "cmsTest": "",
@@ -141,8 +140,9 @@ for item in listOfResults:
         except KeyError:
             # if there is a key error then it wasn't returned from the database
             # for the moment this means just print a blank row
-            # TODO: this should be logged or something
             toAppend = ""
+            print(selectValue,
+                  "was not returned from magdb, leaving blank cell.")
         thisRow.append(toAppend)
         if selectValue == "diskPool":
             # if we are in the diskPool column then we need to add a column for
@@ -152,10 +152,11 @@ for item in listOfResults:
             except KeyError:
                 # if there isnt a mapping this is probably a problem so log
                 # this
-                # TODO: log this
                 # For the moment we can just assume no spacetoken for this
                 # diskpool
                 thisRow.append("")
+                print("No spacetoken for this diskpool:", toAppend,
+                      ". Leaving this blank.")
 
     jsonObj[0]["rows"].append(thisRow)
 
