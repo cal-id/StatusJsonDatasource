@@ -60,7 +60,6 @@ Disk Servers in Intervention | updateDiskServersInIntervention.py
 Downtimes                    | updateDowntimes.py
 GGUS                         | updateGgusTickets.py
 Storage Usage                | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
-Ganglia (proof of concept)   | (Not working) updateGanglia.py
 Pledges                      | updatePledges.py
 Capacity                     | updateCapacity.py
 
@@ -69,7 +68,7 @@ These elements are not included
 Element       | Why
 ------------- | -----
 SAM Test      | Not currently working at the time of porting
-HTCondor Farm | Data is already in our Grafana instance
+Ganglia       | Data is already in our grafana instance. There was a proof of concept update script ([see commits up to 185e721](https://github.com/cal-id/StatusJsonDatasource/tree/185e72115854973344fb4f49cb2a9f7cbcac652f)) which relied on Ganglia returning JSON for its graphs by giving a specific url parameter. However, this no longer happens so it was removed.
 
 
 ## Grafana Example
@@ -148,14 +147,6 @@ Here, each element is discussed how it is before and after the move to Grafana.
 
 ![New screenshot showing detailed storage use](Screenshots/new/storageUseDetailed.PNG)
 
-
-### Ganglia Graphs
-
-Many of the ganglia graphs are already in our Grafana instance. Mainly for testing purposes / proof of concept, a ganglia datasource is provided. It takes the JSON version of the graphs for the standard time periods (1hr, 2hr, 4hr, 1d ... 10y) and combines it into one Grafana compatible JSON time series.
-
-However, when tested on 09/08/2017, ganglia no longer returns these datapoints in its JSON. This means that the [updateGanglia.py script](../blob/master/updateGanglia.py) no longer works.
-
-If this were to be taken further, the correct way to do this would be to pipe the data into InfluxDB. That way, the query would work and only the points for the current Grafana view would be sent to the browser. Instead, all the points are sent on each load and Grafana refuses to draw the points which aren't in the view (i.e. those from 10 years ago).
 
 ### Capacity + Pledges
 #### Before
