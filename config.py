@@ -15,6 +15,12 @@ assert BASE_PATH[-1] == "/"
 URL_WLCG_CAPACITIES = ("https://wlcg-rebus.cern.ch/apps/capacities/"
                        "federation_sites/208/{0}/{1}/json_datatables")
 
+# The wlcg address where the json for pledges can be obtained.
+# {0} is replaced by format() with the year
+# This is used in updatePledges.py
+URL_WLCG_PLEDGES = ("http://wlcg-rebus.cern.ch/apps/pledges/resources/"
+                    "federation/208/{0}/json_datatables")
+
 # The web address for GOCDB where the xml for downtimes at RAL can be accessed
 # This is used in updateDowntimes.py
 URL_GOC_DOWNTIMES = ("https://goc.egi.eu/gocdbpi/public/?"
