@@ -28,7 +28,7 @@ URL_GOC_SPECIFIC_DOWNTIME = ("https://goc.egi.eu/portal/index.php?"
                              "Page_Type=Downtime&id={0}")
 
 # The web address to link through to a specific machine in overwatch
-# {0} is replaced by machineName returned by magdb
+# {0} is replaced by format() with machineName returned by magdb
 # This is used in updateDiskServersInIntervention.py
 URL_OVERWATCH_MACHINE_NAME = ("https://overwatch.gridpp.rl.ac.uk/index.php?"
                               "view:system:{0}")
@@ -36,3 +36,10 @@ URL_OVERWATCH_MACHINE_NAME = ("https://overwatch.gridpp.rl.ac.uk/index.php?"
 # The web address to get xml formatted GGUS tickets
 # This is used in updateGgusTickets.py
 URL_GGUS_TICKETS = "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml"
+
+# The webaddress to link through to more information about a specific ggus
+# ticket.
+# {0} is replaced by format() with the ggus ticket id
+# This is used in updateGgusTickets.py
+URL_GGUS_SPECIFIC_TICKET = ("https://ggus.eu/index.php?"
+                            "mode=ticket_info&amp;ticket_id={0}")
