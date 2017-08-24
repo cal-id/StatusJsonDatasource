@@ -75,11 +75,7 @@ These elements are not included
 | Element       | Why                                                          |
 | ------------- | ------------------------------------------------------------ |
 | SAM Test      | Not currently working at the time of porting                 |
-| Ganglia       | Data is already in our grafana instance. There was a proof   |
-|               | of concept update script which relied on Ganglia returning   |
-|               | JSON for its graphs by giving a specific url parameter.      |
-|               | However, this no longer happens so it was removed.           |
-|               | (see commits up to [185e721]).                               |
+| Ganglia       | Data is already in our grafana instance. There was a proof of concept update script which relied on Ganglia returning JSON for its graphs by giving a specific url parameter. However, this no longer happens so it was removed. (see commits up to [185e721]).
 
 [185e721]: https://github.com/cal-id/StatusJsonDatasource/tree/185e72115854973344fb4f49cb2a9f7cbcac652f
 
