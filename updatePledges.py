@@ -2,7 +2,7 @@ from __future__ import print_function
 import json  # for formatting the output
 import datetime
 import time  # for formatting the time from a date
-from utils import writeFileWithLog, makeDirectoryWithLog
+from utils import writeFileWithLog
 from config import (BASE_PATH, URL_WLCG_PLEDGES, PLEDGES_ROW_DATA_LABELS,
                     PLEDGES_EXPERIMENT_DATA_LABELS)
 import requests  # for getting the data in the first place
