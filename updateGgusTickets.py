@@ -16,8 +16,14 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get(URL_GGUS_TICKETS, verify=False, cert=(HOST_CERT_PATH,
-                                                       HOST_KEY_PATH))
+try:
+    r = requests.get(URL_GGUS_TICKETS, verify=False, cert=(HOST_CERT_PATH,
+                                                           HOST_KEY_PATH))
+except requests.exceptions.SSLError:
+    print("Something SSL failed.")
+    print("Is there a certificate at HOST_KEY_PATH, HOST_CERT_PATH?")
+    print("Is that certificate *readable* by the current user?")
+    raise
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document
