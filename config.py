@@ -41,7 +41,38 @@ URL_OVERWATCH_MACHINE_NAME = ("https://overwatch.gridpp.rl.ac.uk/index.php?"
 
 # The web address to get xml formatted GGUS tickets
 # This is used in updateGgusTickets.py
-URL_GGUS_TICKETS = "http://callum.esc.rl.ac.uk/ggusSearchNoCert.xml"
+URL_GGUS_TICKETS = ("https://ggus.eu/?mode=ticket_search&"
+                    "show_columns_check%5B%5D=AFFECTED_VO&"
+                    "show_columns_check%5B%5D=TICKET_TYPE&"
+                    "show_columns_check%5B%5D=AFFECTED_SITE&"
+                    "show_columns_check%5B%5D=PRIORITY&"
+                    "show_columns_check%5B%5D=RESPONSIBLE_UNIT&"
+                    "show_columns_check%5B%5D=STATUS&"
+                    "show_columns_check%5B%5D=DATE_OF_CHANGE&"
+                    "show_columns_check%5B%5D=SHORT_DESCRIPTION&"
+                    "ticket_id=&"
+                    "supportunit=&"
+                    "su_hierarchy=0&"
+                    "vo=&"
+                    "user=&"
+                    "keyword=&"
+                    "involvedsupporter=&"
+                    "assignedto=&"
+                    "affectedsite=RAL-LCG2&"
+                    "specattrib=none&"
+                    "status=open&"
+                    "priority=&"
+                    "typeofproblem=&"
+                    "ticket_category=all&"
+                    "mouarea=&"
+                    "date_type=creation+date&"
+                    "tf_radio=1&"
+                    "timeframe=any&"
+                    "untouched_date=&"
+                    "orderticketsby=REQUEST_ID&"
+                    "orderhow=desc&"
+                    "search_submit=GO%21&"
+                    "writeFormat=XML")
 
 # The webaddress to link through to more information about a specific ggus
 # ticket.
@@ -75,3 +106,8 @@ PLEDGES_ROW_DATA_LABELS = ["CPU", "Disk", "Tape"]
 # indicies 5-8 refer to the atlas experiment
 # indicies 9-12 etc..
 PLEDGES_EXPERIMENT_DATA_LABELS = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
+
+# The path to the parts of the certificate.
+# This is used to access GGUS.
+HOST_CERT_PATH = "/etc/grid-security/hostcert.pem"
+HOST_KEY_PATH = "/etc/grid-security/hostkey.pem"
