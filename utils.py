@@ -36,7 +36,7 @@ def writeFileWithLog(filePath, content):
             print("Could not create {0}. You don't have permission!"
                   .format(filePath))
         if ex.args[1] == "No such file or directory":
-            print("You need to run setupFolders.py (which must succeed)"
+            print("You need to run setupFolders.py (which must succeed) "
                   "before trying to write:", filePath)
         else:
             # This isn't expected so raise it!
