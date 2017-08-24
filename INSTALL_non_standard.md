@@ -24,6 +24,13 @@ sudo apt install libsasl2-dev python3-dev python-dev libldap2-dev libssl-dev
 
 # Install apache
 sudo apt install apache2
+
+# Install packages to build requests[security] and avoid ssl warning
+# https://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
+sudo apt install libffi-dev libssl-dev
+
+# Install dependencies
+sudo pip install pyldap requests[security] PyGreSQL --upgrade
 ```
 
 ## Using yum (SL6)
@@ -44,8 +51,7 @@ sudo yum install python-devel openldap-devel-2.4.40-12.el6 gcc
 
 # Install apache2
 sudo yum install httpd
+
+# Install dependencies
+sudo pip install pyldap requests[security] PyGreSQL
 ```
-
-
-
-
