@@ -1,0 +1,116 @@
+graph LR
+    MagDB-->udii(updateDiskServersInIntervention.py)
+    udii-->Q_dsii[diskServersInIntervention/]
+    udii-->Q_dsiih[diskServersInInterventionHTML/]
+
+    WLCG-->uc(updateCapacity.py)
+    uc-->Q_cott[capacityOverTimeTape/]
+    uc-->Q_coth[capacityOverTimeHEPSPEC06/]
+    uc-->Q_cotl[capacityOverTimeLogical CPU/]
+    uc-->Q_cotp[capacityOverTimePhysical CPU/]
+    uc-->Q_cotd[capacityOverTimeDisk/]
+
+    GOCDB-->ud(updateDowntimes.py)
+    ud-->Q_d[downtimes/]
+
+    GGUS-->ugt(updateGgusTickets.py)
+    ugt-->Q_gt[ggusTickets/]
+
+    www_priv[noticeboard]-->un(updateNotices.py)
+    un-->Q_n[notices/]
+
+    WLCG-->up(updatePledges.py)
+    up-->Q_pqtc[pledgesOverTimeCPU/]
+    up-->Q_potcso[pledgesOverTimeCPUSumOnly/]
+    up-->Q_potd[pledgesOverTimeDisk/]
+    up-->Q_potdso[pledgesOverTimeDiskSumOnly/]
+    up-->Q_pott[pledgesOverTimeTape/]
+    up-->Q_pottso[pledgesOverTimeTapeSumOnly/]
+
+    LDAP-->usumd(updateStorageUsage_MoreDetails.py)
+    usumd-->Q_suAl[StorageUsageAlice/]
+    usumd-->Q_suAt[StorageUsageAtlas/]
+    usumd-->Q_suc[StorageUsageCms/]
+    usumd-->Q_sul[StorageUsageLhcb/]
+
+    LDAP-->usuvo(updateStorageUsage_VO.py)
+    usuvo-->Q_su[StorageUsage/]
+
+    setupFolders.py-->s((search))
+
+    Q_dsii --> q((query))
+    Q_dsiih --> q
+
+    Q_coth --> q
+    Q_cott --> q
+    Q_cotl --> q
+    Q_cotp --> q
+    Q_cotd --> q
+    Q_d --> q
+    Q_gt-->q
+    Q_n-->q
+    Q_pqtc-->q
+    Q_potcso-->q
+    Q_potd-->q
+    Q_potdso-->q
+    Q_pott-->q
+    Q_pottso-->q
+    Q_suAl-->q
+    Q_suAt-->q
+    Q_suc-->q
+    Q_sul-->q
+    Q_su-->q
+
+    q---g{Grafana}
+    s---g
+
+    subgraph Scripts
+    udii
+    uc
+    ud
+    ugt
+    un
+    up
+    usumd
+    usuvo
+    setupFolders.py
+    end
+
+    subgraph Webserver
+    Q_dsii
+    Q_dsiih
+    Q_cott
+    Q_coth
+    Q_cotl
+    Q_cotp
+    Q_cotd
+    Q_d
+    Q_d
+    Q_gt
+    Q_n
+    Q_pqtc
+    Q_potcso
+    Q_potd
+    Q_potdso
+    Q_pott
+    Q_pottso
+    Q_suAl
+    Q_suAt
+    Q_suc
+    Q_sul
+    Q_su
+    end
+
+    subgraph JSON Endpoints
+    q
+    s
+    end
+
+    subgraph External
+    WLCG
+    LDAP
+    MagDB
+    www_priv
+    GOCDB
+    GGUS
+    end

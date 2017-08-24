@@ -3,10 +3,53 @@ Python scripts to 'jsonize' the gridpp status dashboard feeds for use with
 Grafana.
 
 ## Introduction
-The current gridpp dashboard uses php to pull data from different sources
+The old gridpp dashboard uses php to pull data from different sources
 (MagDB, LDAP, EGI) and combine them on every page load. These scripts collect
 data from the same sources and convert them in a common format (JSON) that can
 be accessed by a Grafana Dashboard when they are served by a webserver.
+
+## Design + Interaction with Grafana
+
+SCD already has a Grafana instance up and running. It mainly pulls timeseries
+data from InfluxDB to plot on various graphs. This project provides a set of
+additional datasources (in JSON) for Grafana to use to display data (mainly
+text, mainly in tables).
+
+The Grafana JSON datasource is configured to communicate with some URL
+(e.g. `some-web-server.stfc.ac.uk/someBasePath/`). It tests connection by
+checking that this responds with a `200` return code. It uses `/search` to get
+a JSON list of possible timeseries and `/query` with a query string to request
+a set of these timeseries between two time intervals.
+
+Our use case is slightly adapting what Grafana is mainly used for. Initially
+built to display graphs of timeseries data, it has been expanded to add the
+panels and tables which we are using. This project serves a set of information
+rather than set of metrics.
+
+It turns out that we want the same content to be displayed regardless of the
+query string (which requests time ranges). Although timestamp is sometimes an
+element in the table, often, it isn't the factor to choose to show or hide an
+event. For example, we want to show all the open GGUS tickets rather than a
+list of the GGUS tickets between two time intervals.
+
+We can get away without using an active webserver - which might crash / need to
+be maintained - and serve a static JSON response to each datasource. The
+staticly served JSON can be updated periodically from the respective
+datasources.
+
+### Data Flow
+
+This diagram outlines how the data gets from the initial sources to Grafana.
+
+![Data Flow Diagram](diagram.mermaid.png)
+
+Section       | Where
+------------- | --------
+External      | Somewhere on the Internet (STFC or Outside)
+Scripts       | The machine with this repository and a webserver installed
+Webserver     | The same machine
+JSON Enpoints | The same machine
+Grafana       | SCD's Grafana Server
 
 ## Requirements
 - `python2.6`
@@ -55,29 +98,6 @@ cp secret_example.py secret.py
 # This file is not for github!
 vi secret.py  # At this stage, put the passwords / details in here
 ```
-
-## Elements
-
-The following elements from the original dashboard have scripts to collect their data into JSON (prefixed with `update`).
-
-Element                      | Update Script
----------------------------- | ---------------------
-Notices                      | updateNotices.py
-Disk Servers in Intervention | updateDiskServersInIntervention.py
-Downtimes                    | updateDowntimes.py
-GGUS                         | updateGgusTickets.py
-Storage Usage                | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
-Pledges                      | updatePledges.py
-Capacity                     | updateCapacity.py
-
-These elements are not included
-
-| Element       | Why                                                          |
-| ------------- | ------------------------------------------------------------ |
-| SAM Test      | Not currently working at the time of porting                 |
-| Ganglia       | Data is already in our grafana instance. There was a proof of concept update script which relied on Ganglia returning JSON for its graphs by giving a specific url parameter. However, this no longer happens so it was removed. (see commits up to [185e721]).
-
-[185e721]: https://github.com/cal-id/StatusJsonDatasource/tree/185e72115854973344fb4f49cb2a9f7cbcac652f
 
 ## Grafana Example
 Here, each element is discussed focusing on how it worked before and after the
@@ -179,3 +199,25 @@ move to Grafana.
   one time series).
 
 ![New screenshot showing pledges split by experiment](Screenshots/new/pledges_split.PNG)
+
+
+## Elements not Included
+
+Element                      | Update Script
+---------------------------- | ---------------------
+Notices                      | updateNotices.py
+Disk Servers in Intervention | updateDiskServersInIntervention.py
+Downtimes                    | updateDowntimes.py
+GGUS                         | updateGgusTickets.py
+Storage Usage                | updateStorageUsage_VO.py updateStorageUsage_MoreDetails.py
+Pledges                      | updatePledges.py
+Capacity                     | updateCapacity.py
+
+These elements are not included from the old gridpp dashboard
+
+| Element       | Why                                                          |
+| ------------- | ------------------------------------------------------------ |
+| SAM Test      | Not currently working at the time of porting                 |
+| Ganglia       | Data is already in our grafana instance. There was a proof of concept update script which relied on Ganglia returning JSON for its graphs by giving a specific url parameter. However, this no longer happens so it was removed. (see commits up to [185e721]).
+
+[185e721]: https://github.com/cal-id/StatusJsonDatasource/tree/185e72115854973344fb4f49cb2a9f7cbcac652f
