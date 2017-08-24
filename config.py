@@ -106,3 +106,8 @@ PLEDGES_ROW_DATA_LABELS = ["CPU", "Disk", "Tape"]
 # indicies 5-8 refer to the atlas experiment
 # indicies 9-12 etc..
 PLEDGES_EXPERIMENT_DATA_LABELS = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
+
+# The path to the parts of the certificate.
+# This is used to access GGUS.
+HOST_CERT_PATH = "/etc/grid-security/hostcert.pem"
+HOST_KEY_PATH = "/etc/grid-security/hostkey.pem"

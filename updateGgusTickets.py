@@ -6,7 +6,8 @@ import xml.etree.ElementTree as ET
 
 from utils import writeFileWithLog, createHTMLLinkString
 
-from config import BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET
+from config import (BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET,
+                    HOST_CERT_PATH, HOST_KEY_PATH)
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -15,7 +16,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 path = BASE_PATH + "ggusTickets"
 
 # get an xml return from this URL and don't check certificates
-r = requests.get(URL_GGUS_TICKETS, verify=False)
+r = requests.get(URL_GGUS_TICKETS, verify=False, cert=(HOST_CERT_PATH,
+                                                       HOST_KEY_PATH))
 
 xmlRoot = ET.fromstring(r.text)
 # xml root is the containing tag in the document
