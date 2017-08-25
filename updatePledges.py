@@ -1,11 +1,14 @@
 import json  # for formatting the output
 import datetime
 import time  # for formatting the time from a date
-from utils import writeFileWithLog
+from utils import writeFileWithLog, getLogger
 from config import (BASE_PATH, URL_WLCG_PLEDGES, PLEDGES_ROW_DATA_LABELS,
                     PLEDGES_EXPERIMENT_DATA_LABELS)
 import requests  # for getting the data in the first place
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+logger = getLogger()
+logger.debug("Starting")
 
 # stop it complaining that its not checking certificates
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -14,6 +17,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # define a function which gets the required JSON data for a specific year
 def getData(year):
     r = requests.get(URL_WLCG_PLEDGES.format(year), verify=False)
+    logger.debug("Request for {0} returned successfully.".format(year))
     return r.text
 
 
@@ -92,5 +96,7 @@ for key in dictionaryOfTimeData:  # Step through CPU, Disk, Tape
             jsonObj[index]["datapoints"].append([item, timestamp])
 
     writeFileWithLog(path + key + "/query", json.dumps(jsonObj))
+    logger.debug("Written JSON Data for {0}".format(key))
     writeFileWithLog(path + key + "SumOnly" + "/query",
                      json.dumps([jsonObj[-1]]))
+    logger.debug("Written JSON Data for {0} - SumOnly".format(key))

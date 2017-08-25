@@ -8,11 +8,20 @@ from secret import LDAP_HOST
 from config import BASE_PATH
 
 logger = getLogger()
+logger.debug("Starting")
 
 vo_list = [
     "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice", "minos", "na62",
     "snoplus", "t2k", "superb", "dirac"
 ]  # this is the list of vos to go through
+
+# open the ldap server
+ldapObject = ldap.open(LDAP_HOST, 2170)
+ldap.set_option(
+    ldap.OPT_NETWORK_TIMEOUT, 3
+)  # set some options. Not sure if this is necessary, Tiju did this in his
+# code
+logger.debug("LDAP connection established")
 
 for vo in vo_list:
     jsonObj = [{
@@ -20,26 +29,13 @@ for vo in vo_list:
         "rows": [],
         "type": "table"
     }]  # the object which will eventually be converted into JSON
-    jsonObj[0]["columns"] = [{
-        "text": "VO/DiskPool"
-    }, {
-        "text": "Disk Used (%)"
-    }, {
-        "text": "Disk Used (total)"
-    }, {
-        "text": "Disk Free"
-    }, {
-        "text": "Disk Total"
-    }, {
-        "text": "Tape Used"
-    }]  # set the predefined column headings
-
-    # open the ldap server
-    ldapObject = ldap.open(LDAP_HOST, 2170)
-    ldap.set_option(
-        ldap.OPT_NETWORK_TIMEOUT, 3
-    )  # set some options. Not sure if this is necessary, Tiju did this in his
-    # code
+    # set the predefined column headings
+    jsonObj[0]["columns"] = [{"text": "VO/DiskPool"},
+                             {"text": "Disk Used (%)"},
+                             {"text": "Disk Used (total)"},
+                             {"text": "Disk Free"},
+                             {"text": "Disk Total"},
+                             {"text": "Tape Used"}]
 
     # below are some options that are used in the search
     dn = ("glueseuniqueid=srm-" + vo +
@@ -55,6 +51,7 @@ for vo in vo_list:
     # from the search reference.
     searchReference = ldapObject.search(
         dn, ldap.SCOPE_SUBTREE, filterstr=fil, attrlist=justThese)
+    logger.debug("LDAP serach returned for vo: {0}".format(vo))
     rows = ldapObject.result(searchReference)[1]
     # rows is a list of dictionaries like below. I think each row is called a
     # 'Disk Pool'
@@ -97,3 +94,4 @@ for vo in vo_list:
 
     writeFileWithLog(BASE_PATH + "storageUsage" + vo.capitalize() + "/query",
                      json.dumps(jsonObj))
+    logger.debug("Written JSON Data")

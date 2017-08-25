@@ -8,6 +8,7 @@ from config import (BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET,
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 logger = getLogger()
+logger.debug("Starting")
 
 # stop it complaining that its not checking certificates
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -24,8 +25,11 @@ except requests.exceptions.SSLError as ex:
                  "*readable* by the current user?")
     logger.Exception(ex)
     raise
+else:
+    logger.debug("GGUS returned successfully")
 
 xmlRoot = ET.fromstring(r.text)
+logger.debug("XML returned successfully")
 # xml root is the containing tag in the document
 # assume the xml is of this form:
 '''
@@ -55,30 +59,14 @@ jsonObj = [{"columns": [], "rows": [], "type": "table"}]
 
 jsonObj[0]["columns"] = [
     # preset the titles of the columns of the table
-    {
-        "text": "ID"
-    },
-    {
-        "text": "Priority"
-    },
-    {
-        "text": "Status"
-    },
-    {
-        "text": "VO"
-    },
-    {
-        "text": "Problem"
-    },
-    {
-        "text": "Updated"
-    },
-    {
-        "text": "Subject"
-    },
-    {
-        "text": "Code"
-    }
+    {"text": "ID"},
+    {"text": "Priority"},
+    {"text": "Status"},
+    {"text": "VO"},
+    {"text": "Problem"},
+    {"text": "Updated"},
+    {"text": "Subject"},
+    {"text": "Code"}
 ]
 
 # xmlRoot[i] is the 'i'th ticket so iterate through the tickets
@@ -105,3 +93,4 @@ for xmlTicket in xmlRoot:
     ])
 
 writeFileWithLog(path + "/query", json.dumps(jsonObj))
+logger.debug("Written JSON Data")

@@ -2,8 +2,11 @@ import json
 # import json so that we can format output
 import requests  # To get noticeboard.txt
 from secret import NOTICES_ADDRESS
-from utils import writeFileWithLog
+from utils import writeFileWithLog, getLogger
 from config import BASE_PATH
+
+logger = getLogger()
+logger.debug("Starting")
 
 path = BASE_PATH + "notices/query"
 
@@ -12,20 +15,13 @@ jsonObj = [{"columns": [], "rows": [], "type": "table"}]
 
 jsonObj[0]["columns"] = [
     # preset the titles of the columns of the table
-    {
-        "text": "Date"
-    },
-    {
-        "text": "Added by"
-    },
-    {
-        "text": "Subject"
-    },
-    {
-        "text": "Description"
-    }
+    {"text": "Date"},
+    {"text": "Added by"},
+    {"text": "Subject"},
+    {"text": "Description"}
 ]
 response = requests.get(NOTICES_ADDRESS)
+logger.debug("Notices request returned successfully")
 for line in response.text.split("\n"):  # step through each line in the file
     if line not in "\n\r":
         cols = line.split(";")  # split each line into cols
@@ -50,3 +46,4 @@ for line in response.text.split("\n"):  # step through each line in the file
         ])
 
 writeFileWithLog(path, json.dumps(jsonObj))
+logger.debug("Written JSON data")

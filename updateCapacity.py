@@ -10,6 +10,8 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 logger = getLogger()
+logger.debug("Starting")
+
 
 # define a function which gets the required JSON data for a specific year and
 # month
@@ -35,16 +37,20 @@ for year in range(2011, currentYear + 1):
                 else datetime.datetime.now().month + 1)
     for month in range(1, maxMonth):
         d = json.loads(getData(month, year))
+        logger.debug("Got a valid JSON response from year: {0}, month: {1}"
+                     .format(year, month))
         try:
             toAppend = d["aaData"][0]
             # this is just the way that REBUS returns its data,
             # there is nothing special about the string aaData
         except IndexError:
-            logger.warn("Index Error while getting capacity data from "
+            logger.warn("Empty JSON data was returned for "
                         "year: {0}, month: {1}".format(year, month))
             # this is necessary because some of the entries in 2012
             # are not in the system for some reason
         else:
+            logger.debug("Got data for year: {0}, month: {1}"
+                         .format(year, month))
             # make use of the first two values in each list which
             # are: sitename and infrastructure
             # overwrite these with the month and year
@@ -67,3 +73,4 @@ for index, name in enumerate(CAPACITY_DATA_LABELS):
                                          int(timestamp) * 1000])
     # Write the query string
     writeFileWithLog(path + name + "/query", json.dumps(jsonObj))
+    logger.debug("Written JSON data for {0}".format(name))

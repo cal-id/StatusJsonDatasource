@@ -1,25 +1,24 @@
 # get the ldap module which is what we will use for the data source
 import ldap
-from utils import writeFileWithLog
+from utils import writeFileWithLog, getLogger
 import json  # get the json module for serializing
 from secret import LDAP_HOST
 from config import BASE_PATH
+
+logger = getLogger()
+logger.debug("Starting")
+
 jsonObj = [{
     "columns": [],
     "rows": [],
     "type": "table"
 }]  # the object which will eventually be converted into JSON
-jsonObj[0]["columns"] = [{
-    "text": "VO/DiskPool"
-}, {
-    "text": "Disk Used (%)"
-}, {
-    "text": "Disk Used (total)"
-}, {
-    "text": "Disk Total"
-}, {
-    "text": "Tape Used"
-}]  # set the predefined column headings
+# set the predefined column headings
+jsonObj[0]["columns"] = [{"text": "VO/DiskPool"},
+                         {"text": "Disk Used (%)"},
+                         {"text": "Disk Used (total)"},
+                         {"text": "Disk Total"},
+                         {"text": "Tape Used"}]
 
 # this is a list of vos which is copied straight from tiju's code:
 # he chose them
@@ -27,15 +26,17 @@ vo_list = [
     "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice", "minos", "na62",
     "snoplus", "t2k", "superb", "dirac"
 ]
+
+# open the ldap server
+ldapObject = ldap.open(LDAP_HOST, 2170)
+ldap.set_option(
+    ldap.OPT_NETWORK_TIMEOUT, 3
+)  # set some options. Not sure if this is necessary,
+# Tiju did this in his code
+logger.debug("LDAP connection established")
+
 for vo in vo_list:
     # go through each vo individually
-    # open the ldap server
-    ldapObject = ldap.open(LDAP_HOST, 2170)
-    ldap.set_option(
-        ldap.OPT_NETWORK_TIMEOUT, 3
-    )  # set some options. Not sure if this is necessary,
-    # Tiju did this in his code
-
     # below are some options that are used in the search
     dn = ("glueseuniqueid=srm-" + vo +
           ".gridpp.rl.ac.uk,mds-vo-name=ral-lcg2,mds-vo-name=local,o=grid")
@@ -50,6 +51,7 @@ for vo in vo_list:
     searchReference = ldapObject.search(
         dn, ldap.SCOPE_SUBTREE, filterstr=fil, attrlist=justThese)
     result = ldapObject.result(searchReference)[1][0][1]
+    logger.debug("LDAP serach returned for vo: {0}".format(vo))
 
     # result["GlueSEUsedOnlineSize"][0] is disk used
     # result["GlueSETotalOnlineSize"][0] is disk total
@@ -73,3 +75,4 @@ for vo in vo_list:
     jsonObj[0]["rows"].append(thisRow)
 
 writeFileWithLog(BASE_PATH + "storageUsage/query", json.dumps(jsonObj))
+logger.debug("Written JSON Data")

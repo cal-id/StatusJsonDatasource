@@ -4,19 +4,22 @@ import xml.etree.ElementTree as ET
 # import the xml parser as a more manageable name
 import time  # so we can tell if a downtime is ongoin
 from config import BASE_PATH, URL_GOC_DOWNTIMES, URL_GOC_SPECIFIC_DOWNTIME
-
-from utils import writeFileWithLog, createHTMLLinkString
-
+from utils import writeFileWithLog, createHTMLLinkString, getLogger
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # stop it complaining that its not checking certificates
+
+logger = getLogger()
+logger.debug("Starting")
 
 path = BASE_PATH + "downtimes"
 
 # get an xml return from this URL and don't check certificates
 r = requests.get(URL_GOC_DOWNTIMES, verify=False)
+logger.debug("GOCDB returned successfully")
 
 xmlRoot = ET.fromstring(r.text)
+logger.debug("Parsed XML successfully")
 # xml root is the containing tag in the document
 # assume the xml is of this form:
 '''
@@ -51,27 +54,13 @@ jsonObj = [{"columns": [], "rows": [], "type": "table"}]
 
 jsonObj[0]["columns"] = [
     # preset the titles of the columns of the table
-    {
-        "text": "ID"
-    },
-    {
-        "text": "Hosts"
-    },
-    {
-        "text": "Start"
-    },
-    {
-        "text": "End"
-    },
-    {
-        "text": "Severity"
-    },
-    {
-        "text": "Description"
-    },
-    {
-        "text": "Code"
-    }
+    {"text": "ID"},
+    {"text": "Hosts"},
+    {"text": "Start"},
+    {"text": "End"},
+    {"text": "Severity"},
+    {"text": "Description"},
+    {"text": "Code"}
 ]
 
 listOfEncounteredDowntimeIds = []
@@ -114,9 +103,7 @@ for downtimeEntry in xmlRoot:
              downtimeEntry.find("SEVERITY").text
              ),
             downtimeEntry.find("DESCRIPTION").text,
-            code,
-
-
+            code
         ]
         # set up the entry in the dictionary for this downtime
 
@@ -132,3 +119,4 @@ for key in dictionaryOfDowntimeIdAgainstRows:
     jsonObj[0]["rows"].append(dictionaryOfDowntimeIdAgainstRows[key])
 
 writeFileWithLog(path + "/query", json.dumps(jsonObj))
+logger.debug("Written JSON data")

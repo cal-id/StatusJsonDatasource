@@ -5,9 +5,11 @@ import json  # For formatting the output
 from utils import writeFileWithLog, createHTMLLinkString, getLogger
 
 logger = getLogger()
+logger.debug("Starting")
 
 # log into the database as the object db
 db = DB(dbname=MAG_DBNAME, host=MAG_HOST, user=MAG_USER, passwd=MAG_PASSWD)
+logger.debug("Logged into MagDB")
 
 # List of data to get from the database about each diskserver in intevention.
 # For now this is also a list of column headings
@@ -37,6 +39,7 @@ query = db.query(queryString)
 # [{'virtualOrganisation': 'Facilities', 'machineName': 'fdsdss36', 'dxtx':
 # 'd1t0', 'diskPool': 'cedaDiskTest'}]
 listOfResults = query.dictresult()
+logger.debug("MagDB returned {0} results".format(len(listOfResults)))
 
 # the object which will eventually be converted into JSON
 jsonObj = [{"columns": [], "rows": [], "type": "table"}]
@@ -63,6 +66,9 @@ for item in listOfResults:
             toAppend = ""
             logger.warning(("{0} was not returned from magdb - leaving this "
                             "blank.").format(selectValue))
+        else:
+            logger.debug("Retrieved {0} successfully from MagDB"
+                         .format(selectValue))
         thisRow.append(toAppend)
         if selectValue == "diskPool":
             # if we are in the diskPool column then we need to add a column for
@@ -77,11 +83,14 @@ for item in listOfResults:
                 thisRow.append("")
                 logger.info(("No spacetoken for this diskpool: {0} - leaving "
                              "this blank.").format(toAppend))
+            else:
+                logger.debug("Added spacetoken for {0}".format(toAppend))
 
     jsonObj[0]["rows"].append(thisRow)
 
 writeFileWithLog(BASE_PATH + "diskServersInIntervention/query",
                  json.dumps(jsonObj))
+logger.debug("Written non-HTML JSON Data")
 
 # do the HTML version as well. This one formats the machine name with a link
 # which goes through to
@@ -98,3 +107,4 @@ if "machineName" in listOfSelectValues:
 
     writeFileWithLog(BASE_PATH + "diskServersInInterventionHTML/query",
                      json.dumps(jsonObj))
+    logger.debug("Written HTML JSON Data")
