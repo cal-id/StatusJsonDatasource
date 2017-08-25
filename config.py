@@ -3,6 +3,7 @@ This is a config file. It is imported by the other scripts so that they can
 share the same configuration.
 """
 import os
+import logging  # to set the log level
 
 # The base path under which the different datasources are served.
 # setupFolders.py creates this path and the sub directories
@@ -15,6 +16,8 @@ LOG_DIR = os.path.dirname(os.path.realpath(__file__))
 # The format string used by pythons logging module
 LOG_FORMAT = "%(filename)s @%(created)d [%(levelname)s]> %(message)s"
 
+# The logging level to use
+LOG_LEVEL = logging.INFO
 
 # The wlcg address where the json for capacity can be obtained.
 # {0} is replaced by format() with the year

@@ -4,7 +4,7 @@ updateX.py scripts. They are imported in each script to avoid repetition.
 import os
 import logging
 import logging.handlers
-from config import LOG_DIR, LOG_FORMAT
+from config import LOG_DIR, LOG_FORMAT, LOG_LEVEL
 
 
 def makeDirectoryWithLog(path):
@@ -80,7 +80,7 @@ def getLogger():
                                                           backupCount=50)
     fileLogHandler.setFormatter(logging.Formatter(LOG_FORMAT))
     logger.addHandler(fileLogHandler)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(LOG_LEVEL)
     return logger
 
 
