@@ -1,8 +1,10 @@
 """This script contains core functions that are used accross multiple
 updateX.py scripts. They are imported in each script to avoid repetition.
 """
-from __future__ import print_function
 import os
+import logging
+import logging.handlers
+from config import LOG_DIR, LOG_FORMAT, LOG_LEVEL
 
 
 def makeDirectoryWithLog(path):
@@ -14,14 +16,14 @@ def makeDirectoryWithLog(path):
         if ex.args[1] == "Permission denied":
             # In python3.3+ there is a Permission Error but it inherits from
             # OSError
-            print("Could not create {0}. You don't have permission!"
-                  .format(path))
+            logger.error("Could not create {0}. You don't have permission!"
+                         .format(path))
         elif ex.args[1] == "File exists":
             pass
         else:
             raise
     else:
-        print("Created Dir: ", path)
+        logger.debug("Created Dir: {0}".format(path))
 
 
 def writeFileWithLog(filePath, content):
@@ -33,16 +35,17 @@ def writeFileWithLog(filePath, content):
     # This error is IOError in python2 but OSError in python3
     except (OSError, IOError) as ex:
         if ex.args[1] == "Permission denied":
-            print("Could not create {0}. You don't have permission!"
-                  .format(filePath))
+            logger.error("Could not create {0}. You don't have permission!"
+                         .format(filePath))
         if ex.args[1] == "No such file or directory":
-            print("You need to run setupFolders.py (which must succeed) "
-                  "before trying to write:", filePath)
+            logger.error(("You need to run setupFolders.py (which must "
+                          "succeed) before trying to write: {0}"
+                          ).format(filePath))
         else:
             # This isn't expected so raise it!
             raise
     else:
-        print("Written file at:", filePath)
+        logger.debug("Written file at: {0}".format(filePath))
 
 
 def createHTMLLinkString(preFormattedHref, name):
@@ -55,3 +58,30 @@ def createHTMLLinkString(preFormattedHref, name):
     """
     href = preFormattedHref.format(name)
     return "<a href='{0}'>{1}</a>".format(href, name)
+
+
+def getLogger():
+    """Returns the global logger object used by all scripts.
+    If necessary, it sets it up."""
+    if not os.path.isdir(LOG_DIR):
+        try:
+            os.mkdir(LOG_DIR)
+        except OSError as ex:
+            if ex.args[1] == "File exists":
+                pass
+    logger = logging.getLogger('StatusJsonDatasource')
+    logger.handlers = []  # Remove old handlers - conf may have changed
+    # Add a new handler with the current configuration
+    thisLogFilePath = os.path.join(LOG_DIR, "log")
+    # Use a maximum of 1MB per log file and overwrite after 50 files
+    # So use a maximum of 50MB
+    fileLogHandler = logging.handlers.RotatingFileHandler(thisLogFilePath, "a",
+                                                          maxBytes=1000000,
+                                                          backupCount=50)
+    fileLogHandler.setFormatter(logging.Formatter(LOG_FORMAT))
+    logger.addHandler(fileLogHandler)
+    logger.setLevel(LOG_LEVEL)
+    return logger
+
+
+logger = getLogger()
