@@ -14,7 +14,7 @@ assert BASE_PATH[-1] == "/"
 LOG_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # The format string used by pythons logging module
-LOG_FORMAT = "%(filename)s @%(created)d [%(levelname)s]> %(message)s"
+LOG_FORMAT = "[%(levelname).4s] %(asctime)s %(filename)s> %(message)s"
 
 # The logging level to use
 LOG_LEVEL = logging.INFO
