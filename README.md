@@ -51,6 +51,14 @@ Webserver     | The same machine
 JSON Enpoints | The same machine
 Grafana       | SCD's Grafana Server
 
+### HTML vs non HTML
+
+For some elements (notably Disk Servers In Intervention), both a HTML and non
+HTML datasource are provided. In the HTML version, at least one column contains
+HTML rather than plain text (allowing clickable links). If you use the HTML
+version, you get clickable links but you must inform use a setting in the
+Grafana panel to tell it to parse it as HTML.
+
 ## Requirements
 - `python2.6`
 - yum packages: `python-ldap` `PyGreSQL` `python-requests`
