@@ -3,6 +3,9 @@ updateX.py scripts. They are imported in each script to avoid repetition.
 """
 from __future__ import print_function
 import os
+import logging
+import logging.handlers
+from config import LOG_DIR, LOG_FORMAT
 
 
 def makeDirectoryWithLog(path):
@@ -55,3 +58,27 @@ def createHTMLLinkString(preFormattedHref, name):
     """
     href = preFormattedHref.format(name)
     return "<a href='{0}'>{1}</a>".format(href, name)
+
+
+def getLogger():
+    """Returns the global logger object used by all scripts.
+    If necessary, it sets it up."""
+    if not os.path.isdir(LOG_DIR):
+        try:
+            os.mkdir(LOG_DIR)
+        except OSError as ex:
+            if ex.args[1] == "File exists":
+                pass
+    logger = logging.getLogger('StatusJsonDatasource')
+    logger.handlers = []  # Remove old handlers - conf may have changed
+    # Add a new handler with the current configuration
+    thisLogFilePath = os.path.join(LOG_DIR, "log")
+    # Use a maximum of 1MB per log file and overwrite after 50 files
+    # So use a maximum of 50MB
+    fileLogHandler = logging.handlers.RotatingFileHandler(thisLogFilePath, "a",
+                                                          maxBytes=1000000,
+                                                          backupCount=50)
+    fileLogHandler.setFormatter(logging.Formatter(LOG_FORMAT))
+    logger.addHandler(fileLogHandler)
+    logger.setLevel(logging.INFO)
+    return logger

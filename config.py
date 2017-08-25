@@ -2,11 +2,19 @@
 This is a config file. It is imported by the other scripts so that they can
 share the same configuration.
 """
+import os
 
 # The base path under which the different datasources are served.
 # setupFolders.py creates this path and the sub directories
 BASE_PATH = "/var/www/html/grafanaJsonDatasources/"
 assert BASE_PATH[-1] == "/"
+
+# Use a log directory which is included next to this config script.
+LOG_DIR = os.path.dirname(os.path.realpath(__file__))
+
+# The format string used by pythons logging module
+LOG_FORMAT = "%(filename)s @%(created)d [%(levelname)s]> %(message)s"
+
 
 # The wlcg address where the json for capacity can be obtained.
 # {0} is replaced by format() with the year
