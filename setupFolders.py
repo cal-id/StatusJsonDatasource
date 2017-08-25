@@ -42,18 +42,15 @@ writeSearchFile(BASE_PATH + "diskServersInIntervention",
                 '["Disk Servers in Intervention"]')
 writeSearchFile(BASE_PATH + "diskServersInInterventionHTML",
                 '["Disk Servers in Intervention HTML"]')
-logger.info("Done: Disk Servers In Intervention")
 
 
 # DOWNTIMES
 makeDirectoryWithLog(BASE_PATH + "downtimes")
 writeSearchFile(BASE_PATH + "downtimes", '["Downtimes"]')
-logger.info("Done: Downtimes")
 
 # GGUS TICKETS
 makeDirectoryWithLog(BASE_PATH + "ggusTickets")
 writeSearchFile(BASE_PATH + "ggusTickets", '["GGUS Tickets"]')
-logger.info("Done: GGUS Tickets")
 
 # NOTICES
 makeDirectoryWithLog(BASE_PATH + "notices")
@@ -64,7 +61,6 @@ logger.info("Done: Notices")
 for name in CAPACITY_DATA_LABELS:
     makeDirectoryWithLog(BASE_PATH + "capacityOverTime" + name)
     writeSearchFile(BASE_PATH + "capacityOverTime" + name, json.dumps([name]))
-logger.info("Done: Capacity")
 
 # PLEDGES
 for key in PLEDGES_ROW_DATA_LABELS:
@@ -74,7 +70,6 @@ for key in PLEDGES_ROW_DATA_LABELS:
     makeDirectoryWithLog(BASE_PATH + "pledgesOverTime" + key + "SumOnly")
     writeSearchFile(BASE_PATH + "pledgesOverTime" + key + "SumOnly",
                     json.dumps([PLEDGES_EXPERIMENT_DATA_LABELS[-1]]))
-logger.info("Done: Pledges")
 
 
 # STORAGE USAGE
@@ -93,4 +88,3 @@ for vo in vo_list:
     searchFileContent += "Overall" if vo is None else "For " + vo.capitalize()
     searchFileContent += '"]'
     writeSearchFile(thisPath, searchFileContent)
-logger.info("Done: Storage Usage")
