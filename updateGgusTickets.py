@@ -23,7 +23,7 @@ except requests.exceptions.SSLError as ex:
     logger.error("Something SSL failed. Is there a certificate at "
                  "HOST_KEY_PATH, HOST_CERT_PATH? Is that certificate "
                  "*readable* by the current user?")
-    logger.Exception(ex)
+    logger.exception(ex)
     raise
 else:
     logger.debug("GGUS returned successfully")
