@@ -111,3 +111,40 @@ PLEDGES_EXPERIMENT_DATA_LABELS = ["ALICE", "ATLAS", "CMS", "LHCb", "SUM"]
 # This is used to access GGUS.
 HOST_CERT_PATH = "/etc/grid-security/hostcert.pem"
 HOST_KEY_PATH = "/etc/grid-security/hostkey.pem"
+
+# For diskServersInIntervention, we get the diskPool straight from MagDB.
+# This dictionary is a hardcoded mapping from diskPool to spaceToken.
+SPACE_TOKEN_MAP = {
+    "atlasFarm": "",
+    "atlasHotDisk": "",
+    "atlasNonProd": "",
+    "atlasScratchDisk": "ATLASSCRATCHDISK",
+    "atlasSimRaw": "ATLASMCTAPE",
+    "atlasSimStrip": "ATLASMCDISK",
+    "atlasSpare": "",
+    "atlasStripDeg": "ATLASGROUPDISK",
+    "atlasStripInput": "ATLASDATADISK",
+    "atlasT0Raw": "ATLASDATATAPE",
+    "atlasTape": "ATLASDATATAPE",
+    "cmsFarmRead": "cmsFarmRead",
+    "cmsSpare": "",
+    "cmsTest": "",
+    "cmsDisk": "",
+    "cmsTape": "",
+    "cmsWanIn": "CMS_DEFAULT",
+    "cmsWanOut": "cmsWanOut",
+    "lhcbDst": "LHCb_DST",
+    "lhcbMdst": "LHCb_M-DST",
+    "lhcbNonProd": "",
+    "lhcbRawRdst": "LHCb_RAW",
+    "lhcbSpare": "",
+    "lhcbUser": "",
+    "aliceTape": "",
+    "dteamTest": "",
+    "genNonProd": "",
+    "genTape": "",
+    "genTest": "",
+    "xrootd": "xrootd",
+    "NFS": "NFS",
+    "upgrade": ""
+}
