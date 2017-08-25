@@ -55,7 +55,6 @@ writeSearchFile(BASE_PATH + "ggusTickets", '["GGUS Tickets"]')
 # NOTICES
 makeDirectoryWithLog(BASE_PATH + "notices")
 writeSearchFile(BASE_PATH + "notices", '["Notices"]')
-logger.info("Done: Notices")
 
 # CAPACITY
 for name in CAPACITY_DATA_LABELS:
