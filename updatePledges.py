@@ -1,4 +1,3 @@
-from __future__ import print_function
 import json  # for formatting the output
 import datetime
 import time  # for formatting the time from a date

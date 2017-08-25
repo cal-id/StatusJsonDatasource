@@ -1,15 +1,15 @@
-from __future__ import print_function
 import json  # for formatting the output
 import datetime
 import time  # for formatting the time from a date
 import requests  # for getting the data in the first place
-from utils import writeFileWithLog
+from utils import writeFileWithLog, getLogger
 from config import BASE_PATH, URL_WLCG_CAPACITIES, CAPACITY_DATA_LABELS
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 # Stop it complaining that its not checking certificates
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+logger = getLogger()
 
 # define a function which gets the required JSON data for a specific year and
 # month
@@ -40,8 +40,8 @@ for year in range(2011, currentYear + 1):
             # this is just the way that REBUS returns its data,
             # there is nothing special about the string aaData
         except IndexError:
-            print("Index Error while getting capacity data from "
-                  "year: {0}, month: {1}".format(year, month))
+            logger.warn("Index Error while getting capacity data from "
+                        "year: {0}, month: {1}".format(year, month))
             # this is necessary because some of the entries in 2012
             # are not in the system for some reason
         else:

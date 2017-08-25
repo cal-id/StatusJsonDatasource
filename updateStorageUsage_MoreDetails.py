@@ -1,13 +1,14 @@
-from __future__ import print_function
-
 import sys  # to check py3 vs py2
-from utils import writeFileWithLog
+from utils import writeFileWithLog, getLogger
 import ldap  # get the ldap module which is what we will use for the data
 # source at the begining
 import json  # get the json module so that the object can be serialized at the
 # end
 from secret import LDAP_HOST
 from config import BASE_PATH
+
+logger = getLogger()
+
 vo_list = [
     "alice", "atlas", "cms", "lhcb", "hone", "ilc", "mice", "minos", "na62",
     "snoplus", "t2k", "superb", "dirac"
@@ -84,8 +85,9 @@ for vo in vo_list:
                 int(row[1]['GlueSAUsedOnlineSize'][0]) * 100 /
                 int(row[1]['GlueSATotalOnlineSize'][0]))))
         except ZeroDivisionError:
-            print("Got zero online size for vo: {0} at {1}"
-                  .format(vo, localId))
+            logger.info(("Got zero online size for vo: {0} at {1}. "
+                         "Using 0 instead of calculating percentage.")
+                        .format(vo, localId))
             thisRow.append(0)
         thisRow.append(int(row[1]['GlueSAUsedOnlineSize'][0]))
         thisRow.append(int(row[1]['GlueSAFreeOnlineSize'][0]))

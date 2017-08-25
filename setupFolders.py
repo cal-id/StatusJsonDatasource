@@ -15,7 +15,6 @@ Grafana to give it the titles of the data in this URL.
 Works with python2 or python3
 """
 
-from __future__ import print_function
 import os
 from utils import writeFileWithLog, makeDirectoryWithLog
 from config import (BASE_PATH, CAPACITY_DATA_LABELS, PLEDGES_ROW_DATA_LABELS,

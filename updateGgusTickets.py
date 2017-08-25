@@ -1,17 +1,16 @@
-from __future__ import print_function
 import json  # to format the output
 import requests  # to get the data
 # import the xml parser as a more manageable name
 import xml.etree.ElementTree as ET
-
-from utils import writeFileWithLog, createHTMLLinkString
-
+from utils import writeFileWithLog, createHTMLLinkString, getLogger
 from config import (BASE_PATH, URL_GGUS_TICKETS, URL_GGUS_SPECIFIC_TICKET,
                     HOST_CERT_PATH, HOST_KEY_PATH)
-
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+logger = getLogger()
+
 # stop it complaining that its not checking certificates
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 path = BASE_PATH + "ggusTickets"
 
@@ -19,10 +18,11 @@ path = BASE_PATH + "ggusTickets"
 try:
     r = requests.get(URL_GGUS_TICKETS, verify=False, cert=(HOST_CERT_PATH,
                                                            HOST_KEY_PATH))
-except requests.exceptions.SSLError:
-    print("Something SSL failed.")
-    print("Is there a certificate at HOST_KEY_PATH, HOST_CERT_PATH?")
-    print("Is that certificate *readable* by the current user?")
+except requests.exceptions.SSLError as ex:
+    logger.error("Something SSL failed. Is there a certificate at "
+                 "HOST_KEY_PATH, HOST_CERT_PATH? Is that certificate "
+                 "*readable* by the current user?")
+    logger.Exception(ex)
     raise
 
 xmlRoot = ET.fromstring(r.text)

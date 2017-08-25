@@ -1,7 +1,6 @@
 """This script contains core functions that are used accross multiple
 updateX.py scripts. They are imported in each script to avoid repetition.
 """
-from __future__ import print_function
 import os
 import logging
 import logging.handlers
@@ -17,14 +16,14 @@ def makeDirectoryWithLog(path):
         if ex.args[1] == "Permission denied":
             # In python3.3+ there is a Permission Error but it inherits from
             # OSError
-            print("Could not create {0}. You don't have permission!"
-                  .format(path))
+            logger.error("Could not create {0}. You don't have permission!"
+                         .format(path))
         elif ex.args[1] == "File exists":
             pass
         else:
             raise
     else:
-        print("Created Dir: ", path)
+        logger.info("Created Dir: ", path)
 
 
 def writeFileWithLog(filePath, content):
@@ -36,16 +35,17 @@ def writeFileWithLog(filePath, content):
     # This error is IOError in python2 but OSError in python3
     except (OSError, IOError) as ex:
         if ex.args[1] == "Permission denied":
-            print("Could not create {0}. You don't have permission!"
-                  .format(filePath))
+            logger.error("Could not create {0}. You don't have permission!"
+                         .format(filePath))
         if ex.args[1] == "No such file or directory":
-            print("You need to run setupFolders.py (which must succeed) "
-                  "before trying to write:", filePath)
+            logger.error(("You need to run setupFolders.py (which must "
+                          "succeed) before trying to write: {0}"
+                          ).format(filePath))
         else:
             # This isn't expected so raise it!
             raise
     else:
-        print("Written file at:", filePath)
+        logger.info("Written file at: {0}".format(filePath))
 
 
 def createHTMLLinkString(preFormattedHref, name):
@@ -82,3 +82,6 @@ def getLogger():
     logger.addHandler(fileLogHandler)
     logger.setLevel(logging.INFO)
     return logger
+
+
+logger = getLogger()

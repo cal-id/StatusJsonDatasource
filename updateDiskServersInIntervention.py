@@ -1,9 +1,10 @@
-from __future__ import print_function
 from pg import DB  # from PyGreSQL import database function
 from secret import MAG_DBNAME, MAG_HOST, MAG_USER, MAG_PASSWD
 from config import BASE_PATH, URL_OVERWATCH_MACHINE_NAME, SPACE_TOKEN_MAP
 import json  # For formatting the output
-from utils import writeFileWithLog, createHTMLLinkString
+from utils import writeFileWithLog, createHTMLLinkString, getLogger
+
+logger = getLogger()
 
 # log into the database as the object db
 db = DB(dbname=MAG_DBNAME, host=MAG_HOST, user=MAG_USER, passwd=MAG_PASSWD)
@@ -58,10 +59,10 @@ for item in listOfResults:
             toAppend = item[selectValue]
         except KeyError:
             # if there is a key error then it wasn't returned from the database
-            # for the moment this means just print a blank row
+            # for the moment this means just use a blank row
             toAppend = ""
-            print(selectValue,
-                  "was not returned from magdb, leaving blank cell.")
+            logger.warning(("{0} was not returned from magdb - leaving this "
+                            "blank.").format(selectValue))
         thisRow.append(toAppend)
         if selectValue == "diskPool":
             # if we are in the diskPool column then we need to add a column for
@@ -74,8 +75,8 @@ for item in listOfResults:
                 # For the moment we can just assume no spacetoken for this
                 # diskpool
                 thisRow.append("")
-                print("No spacetoken for this diskpool:", toAppend,
-                      ". Leaving this blank.")
+                logger.info(("No spacetoken for this diskpool: {0} - leaving "
+                             "this blank.").format(toAppend))
 
     jsonObj[0]["rows"].append(thisRow)
 
