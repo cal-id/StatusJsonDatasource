@@ -23,7 +23,8 @@ try:
     ]
     response = requests.get(NOTICES_ADDRESS)
     logger.debug("Notices request returned successfully")
-    for line in response.text.split("\n"):  # step through each line in the file
+    # step through each line in the file
+    for line in response.text.split("\n"):
         if line not in "\n\r":
             cols = line.split(";")  # split each line into cols
 
