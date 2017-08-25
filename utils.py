@@ -23,7 +23,7 @@ def makeDirectoryWithLog(path):
         else:
             raise
     else:
-        logger.info("Created Dir: ", path)
+        logger.info("Created Dir: {0}".format(path))
 
 
 def writeFileWithLog(filePath, content):
