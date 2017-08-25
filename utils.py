@@ -23,7 +23,7 @@ def makeDirectoryWithLog(path):
         else:
             raise
     else:
-        logger.info("Created Dir: {0}".format(path))
+        logger.debug("Created Dir: {0}".format(path))
 
 
 def writeFileWithLog(filePath, content):
@@ -45,7 +45,7 @@ def writeFileWithLog(filePath, content):
             # This isn't expected so raise it!
             raise
     else:
-        logger.info("Written file at: {0}".format(filePath))
+        logger.debug("Written file at: {0}".format(filePath))
 
 
 def createHTMLLinkString(preFormattedHref, name):
