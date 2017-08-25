@@ -8,42 +8,46 @@ from config import BASE_PATH
 logger = getLogger()
 logger.debug("Starting")
 
-path = BASE_PATH + "notices/query"
+try:
+    path = BASE_PATH + "notices/query"
 
-jsonObj = [{"columns": [], "rows": [], "type": "table"}]
-# the object which will eventually be converted into JSON
+    jsonObj = [{"columns": [], "rows": [], "type": "table"}]
+    # the object which will eventually be converted into JSON
 
-jsonObj[0]["columns"] = [
-    # preset the titles of the columns of the table
-    {"text": "Date"},
-    {"text": "Added by"},
-    {"text": "Subject"},
-    {"text": "Description"}
-]
-response = requests.get(NOTICES_ADDRESS)
-logger.debug("Notices request returned successfully")
-for line in response.text.split("\n"):  # step through each line in the file
-    if line not in "\n\r":
-        cols = line.split(";")  # split each line into cols
+    jsonObj[0]["columns"] = [
+        # preset the titles of the columns of the table
+        {"text": "Date"},
+        {"text": "Added by"},
+        {"text": "Subject"},
+        {"text": "Description"}
+    ]
+    response = requests.get(NOTICES_ADDRESS)
+    logger.debug("Notices request returned successfully")
+    # step through each line in the file
+    for line in response.text.split("\n"):
+        if line not in "\n\r":
+            cols = line.split(";")  # split each line into cols
 
-        # for example a cols would look like this:
-        # [
-        #     '1252589462',
-        #     'Tiju Idiculla',
-        #     '/C=UK/O=eScience/OU=CLRC/L=RAL/CN=tiju idiculla',
-        #     'Castor Database problems',
-        #     'There are some problems on the CMS and GEN instances of the
-        #     Castor database. The problem is under investigation.\n'
-        # ]
+            # for example a cols would look like this:
+            # [
+            #     '1252589462',
+            #     'Tiju Idiculla',
+            #     '/C=UK/O=eScience/OU=CLRC/L=RAL/CN=tiju idiculla',
+            #     'Castor Database problems',
+            #     'There are some problems on the CMS and GEN instances of the
+            #     Castor database. The problem is under investigation.\n'
+            # ]
 
-        jsonObj[0]["rows"].append([
-            # parse the timestamp into an integer and change into
-            # miliseconds
-            int(cols[0]) * 1000,
-            cols[1],  # ignore the certificate
-            cols[3],
-            cols[4]
-        ])
+            jsonObj[0]["rows"].append([
+                # parse the timestamp into an integer and change into
+                # miliseconds
+                int(cols[0]) * 1000,
+                cols[1],  # ignore the certificate
+                cols[3],
+                cols[4]
+            ])
 
-writeFileWithLog(path, json.dumps(jsonObj))
-logger.debug("Written JSON data")
+    writeFileWithLog(path, json.dumps(jsonObj))
+    logger.debug("Written JSON data")
+except BaseException as ex:
+    logger.exception(ex)
