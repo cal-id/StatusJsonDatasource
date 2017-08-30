@@ -90,21 +90,62 @@ sudo yum install git python httpd python-ldap PyGreSQL python-requests
 
 ### Instructions for all
 ```
-# Allow access to the webserver directory by user running these scripts
-# Alternative base directory can be set in config.py
-sudo chown $USER /var/www/html/
-
-# Clone the repo
-git clone https://github.com/cal-id/StatusJsonDatasource
-cd StatusJsonDatasource
+# Download the tar from https://github.com/cal-id/StatusJsonDatasource/releases
+# Extract the code into /opt
+sudo tar -xvf StatusJsonDatasource-<version>.tar -P
 
 # Setup the directory
-python setupFolders.py
+sudo python setupFolders.py
 
 # Populate secret.py
 cp secret_example.py secret.py
 # This file is not for github!
-vi secret.py  # At this stage, put the passwords / details in here
+# At this stage, put the passwords / details in here
+# Gareth Smith has these details.
+vi secret.py
+
+# setup cronjobs
+45 5 * * * root python /opt/StatusJsonDatasource/updatePledges.py
+45 5 * * * root python /opt/StatusJsonDatasource/updateCapacity.py
+34 * * * * root python /opt/StatusJsonDatasource/updateStorageUsage_VO.py
+34 * * * * root python /opt/StatusJsonDatasource/updateStorageUsage_MoreDetails.py
+*/10 * * * * root python /opt/StatusJsonDatasource/updateDiskServersInIntervention.py
+*/10 * * * * root python /opt/StatusJsonDatasource/updateDowntimes.py
+*/5 * * * * root python /opt/StatusJsonDatasource/updateGgusTickets.py
+*/5 * * * * root python /opt/StatusJsonDatasource/updateNotices.py
+```
+
+## Setup For Grafana
+
+### Install Grafana
+
+Use [this site](http://docs.grafana.org/installation/rpm/) for the latest instructions. These are instructions for installing Grafana at our current version (v4.0.2).
+
+```bash
+# Install repository
+sudo cat > /etc/yum.repos.d/grafana.repo << EOF
+[grafana]
+name=grafana
+baseurl=https://packagecloud.io/grafana/stable/el/6/$basearch
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOF
+
+# Install Grafana
+# See here for why the security flag.
+# https://github.com/grafana/grafana/issues/7647
+sudo yum install --nogpgcheck grafana-4.0.2  
+
+# Install simple json datasouce for grafana
+sudo grafana-cli plugins install grafana-simple-json-datasource
+
+# Start the server and make it run at boot
+sudo service grafana-server start
+sudo /sbin/chkconfig --add grafana-server
 ```
 
 ## Grafana Example
