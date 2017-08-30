@@ -116,8 +116,7 @@ move to Grafana.
 ![Old screenshot](Screenshots/old/notices.PNG)
 - 5 most recent notices shown
 - 'Click here to add'
-- Data from `/var/www/html/status/grid/noticeboard.txt` (these scripts are
-  meant to be run on the same server than provides the noticeboard)
+- Data from `www.gridpp.rl.ac.uk`
 
 #### Grafana
 ![New screenshot](Screenshots/new/notices.PNG)
