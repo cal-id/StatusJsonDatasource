@@ -91,8 +91,10 @@ sudo yum install git python httpd python-ldap PyGreSQL python-requests
 ### Instructions for all
 ```
 # Download the tar from https://github.com/cal-id/StatusJsonDatasource/releases
+wget https://github.com/cal-id/StatusJsonDatasource/releases/download/v1.0.0-beta/StatusJsonDatasource-1.0.0-beta.tar
+
 # Extract the code into /opt
-sudo tar -xvf StatusJsonDatasource-<version>.tar -P
+sudo tar -xvf StatusJsonDatasource-1.0.0.tar -P
 
 # Setup the directory
 sudo python setupFolders.py
